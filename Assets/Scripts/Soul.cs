@@ -6,6 +6,8 @@ public class Soul : MonoBehaviour {
 
 	private CharacterController _controller;
 
+	public GameObject head;
+
 	public Vector3 gravity;
 	public float movementSpeed;
 	public float rotateSpeed;
@@ -26,6 +28,7 @@ public class Soul : MonoBehaviour {
 		var mY = Input.GetAxis ("Mouse Y");
 		
 		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
+		head.transform.Rotate (new Vector3 (-mY, 0f, 0f) * rotateSpeed);
 			
 		var kX = Input.GetAxis ("Vertical");
 		var kY = Input.GetAxis ("Horizontal");
