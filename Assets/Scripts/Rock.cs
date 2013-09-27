@@ -21,7 +21,7 @@ public class Rock : UKListedBehaviour<Rock> {
 		fallSpeed = Random.Range (2f, 5f);
 	}
 
-	void BreakApart () {
+	public void BreakApart () {
 		mode = Mode.FALLING;
 	}
 
@@ -38,5 +38,10 @@ public class Rock : UKListedBehaviour<Rock> {
 		}
 
 		// Debug.Log (instances.Count);
+
+		if (transform.position.y < Constants.instance.DESPAWNHEIGHT) {
+			Grid.instance.RemoveCellAt (gridX, gridY);
+		}
+
 	}
 }

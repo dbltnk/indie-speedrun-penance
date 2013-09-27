@@ -37,11 +37,16 @@ public class Grid : MonoBehaviour {
 		foreach (var cell in grid.EnumCells()) {
 			CreateRockObject (cell.x, cell.y);
 		}
+		
+		foreach (var rock in Rock.Instances) {
+			//Debug.Log(rock);
+			//rock.BreakApart();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+				
 	}
 
 	public Rock FindRockAt(int x, int y) {
