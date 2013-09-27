@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour {
 			return;
 
 		transform.position = s.transform.position;
-		var soulPointInForward = s.transform.position + s.transform.InverseTransformDirection (Vector3.forward);
+		var soulPointInForward = s.transform.position + s.transform.TransformDirection (Vector3.forward);
 		transform.LookAt (soulPointInForward);
 	}
 }

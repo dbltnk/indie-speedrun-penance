@@ -8,6 +8,7 @@ public class Soul : MonoBehaviour {
 
 	public Vector3 gravity;
 	public float movementSpeed;
+	public float rotateSpeed;
 
 	void Awake () {
 		instance = this;
@@ -21,11 +22,16 @@ public class Soul : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		var v = Input.GetAxis ("Vertical");
-		var h = Input.GetAxis ("Horizontal");
+		var mX = Input.GetAxis ("Mouse X");
+		var mY = Input.GetAxis ("Mouse Y");
+		
+		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
+			
+		var kX = Input.GetAxis ("Vertical");
+		var kY = Input.GetAxis ("Horizontal");
 
-		Vector3 movement = transform.TransformDirection (Vector3.forward) * movementSpeed * v;
-		movement += transform.TransformDirection (Vector3.right) * movementSpeed * h;
+		Vector3 movement = transform.TransformDirection (Vector3.forward) * movementSpeed * kX;
+		movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;
 
 		_controller.Move((movement + gravity) * Time.deltaTime);
 	}
