@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GridComponent : MonoBehaviour {
-	public static GridComponent instance;
+public class Grid : MonoBehaviour {
+	public static Grid instance;
 
 	public GameObject prefabRock;
 
@@ -21,11 +21,15 @@ public class GridComponent : MonoBehaviour {
 		rocks = new List<GameObject> ();
 
 		foreach (var cell in grid.EnumCells()) {
-			var rock = GameObject.Instantiate (prefabRock) as GameObject;
-			rock.name = string.Format ("cell_{0}_{1}", cell.x, cell.y);
-			rock.transform.parent = transform;
-			rocks.Add (rock);
-			rock.transform.position = cell.ViewPosition ();
+			var go = GameObject.Instantiate (prefabRock) as GameObject;
+			go.name = string.Format ("cell_{0}_{1}", cell.x, cell.y);
+			go.transform.parent = transform;
+			rocks.Add (go);
+			go.transform.position = cell.ViewPosition ();
+
+			var rock = go.GetComponent<Rock> ();
+			rock.gridX = cell.x;
+			rock.gridY = cell.y;
 		}
 	}
 	
