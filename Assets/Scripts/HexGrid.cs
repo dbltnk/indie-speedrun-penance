@@ -25,8 +25,9 @@ public class HexGrid {
 	}
 
 	public static UKTuple<int,int> CellPositionFromView(Vector3 p) {
-		int x = Mathf.RoundToInt (p.x / CELL_DIAMETER_SHORT);
-		int y = Mathf.RoundToInt (p.z / (CELL_SIDE + CELL_SIDE / 2f));
+		int y = Mathf.FloorToInt (p.z / (CELL_SIDE + CELL_SIDE / 2f));
+		float delta = y % 2 == 0 ? 0f : Mathf.FloorToInt(CELL_DIAMETER_SHORT / 2f);
+		int x = Mathf.FloorToInt ((p.x + delta) / CELL_DIAMETER_SHORT);
 		return new UKTuple<int, int> (x, y);
 	}
 	

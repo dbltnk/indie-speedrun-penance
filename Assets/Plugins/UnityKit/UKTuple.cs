@@ -12,6 +12,11 @@ public struct UKTuple<A,B>
 		this.a = a;
 		this.b = b;
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("<{0},{1}>", a,b);
+	}
 }
 
 public struct UKTuple<A,B,C>
@@ -25,6 +30,11 @@ public struct UKTuple<A,B,C>
 		this.a = a;
 		this.b = b;
 		this.c = c;
+	}
+	
+	public override string ToString ()
+	{
+		return string.Format ("<{0},{1},{2}>", a,b,c);
 	}
 }
 
@@ -41,5 +51,10 @@ public struct UKTuple<A,B,C,D>
 		this.b = b;
 		this.c = c;
 		this.d = d;
+	}
+	
+	public override string ToString ()
+	{
+		return string.Format ("<{0},{1},{2},{3}>", a,b,c,d);
 	}
 }
