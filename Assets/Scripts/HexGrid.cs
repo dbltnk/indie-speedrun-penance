@@ -4,25 +4,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class HexGrid {
-	private const float CELL_SIDE = 0.5f;
+	private const float CELL_SIDE = 1.155f;
 	private const float CELL_DIAMETER_LONG = 2f * CELL_SIDE;
 	private const float CELL_DIAMETER_SHORT = CELL_SIDE * 1.73205080756888f;
 	
 	// center
-	public static Vector2 ViewCellPosition(int x, int y)
+	public static Vector3 ViewCellPosition(int x, int y)
 	{
-		Vector2 v = new Vector2();
+		Vector2 v2d = new Vector2();
 		
-		v.x = (float)x * (CELL_SIDE + CELL_SIDE / 2f);
+		v2d.x = (float)x * CELL_DIAMETER_SHORT;
+		v2d.y = (float)y * (CELL_SIDE + CELL_SIDE / 2f);
 		
-		v.y = (float)y * CELL_DIAMETER_SHORT;
 		
-		if (x % 2 == 1)
+		if (y % 2 == 1)
 		{
-			v.y += CELL_DIAMETER_SHORT / 2f;
+			v2d.x += CELL_DIAMETER_SHORT / 2f;
 		}
 		
-		return v;		
+		return new Vector3(v2d.x, 0f, v2d.y);
 	}
 	
 	// cell x,y, even if there are no cells
@@ -107,7 +107,7 @@ public class HexGrid {
 		}
 		
 		// center
-		public Vector2 ViewPosition()
+		public Vector3 ViewPosition()
 		{
 			return ViewCellPosition(x,y);
 		}
@@ -199,7 +199,7 @@ public class HexGrid {
 				int nx = neighbourPos.a;
 				int ny = neighbourPos.b;
 				
-				if (HasCellAt(nx, ny) && isEdgeBetween(cell.x, cell.y, nx, ny) == false)
+				if (HasCellAt(nx, ny) && IsEdgeBetween(cell.x, cell.y, nx, ny) == false)
 				{
 					edges.Add(new HexEdge(cell.x, cell.y, nx, ny));
 				}
@@ -239,7 +239,7 @@ public class HexGrid {
 			cellAX, cellAY, cellBX, cellBY));
 	}
 	
-	public bool isEdgeBetween(int cellAX, int cellAY, int cellBX, int cellBY)
+	public bool IsEdgeBetween(int cellAX, int cellAY, int cellBX, int cellBY)
 	{
 		foreach(var edge in edges)
 		{
