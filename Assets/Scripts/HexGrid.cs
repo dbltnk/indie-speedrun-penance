@@ -15,14 +15,19 @@ public class HexGrid {
 		
 		v2d.x = (float)x * CELL_DIAMETER_SHORT;
 		v2d.y = (float)y * (CELL_SIDE + CELL_SIDE / 2f);
-		
-		
+
 		if (y % 2 == 1)
 		{
 			v2d.x += CELL_DIAMETER_SHORT / 2f;
 		}
 		
 		return new Vector3(v2d.x, 0f, v2d.y);
+	}
+
+	public static UKTuple<int,int> CellPositionFromView(Vector3 p) {
+		int x = Mathf.RoundToInt (p.x / CELL_DIAMETER_SHORT);
+		int y = Mathf.RoundToInt (p.z / (CELL_SIDE + CELL_SIDE / 2f));
+		return new UKTuple<int, int> (x, y);
 	}
 	
 	// cell x,y, even if there are no cells
