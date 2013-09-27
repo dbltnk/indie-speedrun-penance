@@ -37,6 +37,6 @@ public class Rock : UKListedBehaviour<Rock> {
 			transform.Translate (Vector3.down * fallSpeed * Time.deltaTime);
 		}
 
-		Debug.Log (instances.Count);
+		// Debug.Log (instances.Count);
 	}
 }

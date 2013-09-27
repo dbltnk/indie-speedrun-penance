@@ -148,7 +148,7 @@ public class HexGrid {
 		{
 			for (int y = 0; y < height; ++y)
 			{
-				CreateCell(x, y);
+				CreateCellInternal(x, y);
 			}
 		}
 		
@@ -171,8 +171,14 @@ public class HexGrid {
 		cells.Remove(key);
 		RemoveUnconnectedEdges();
 	}
-	
-	private void CreateCell(int x, int y)
+
+	public void CreateCell(int x, int y)
+	{
+		CreateCellInternal (x, y);
+		AddMissingEdges ();
+	}
+
+	private void CreateCellInternal(int x, int y)
 	{
 		string key = CellKey(x,y);
 		

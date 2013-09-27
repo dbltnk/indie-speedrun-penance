@@ -12,6 +12,8 @@ public class Soul : MonoBehaviour {
 	public float movementSpeed;
 	public float rotateSpeed;
 
+	public bool isCarryingARock;
+
 	void Awake () {
 		instance = this;
 		_controller = GetComponent<CharacterController> ();
@@ -49,6 +51,20 @@ public class Soul : MonoBehaviour {
 				var hit = r.GetPoint (enter);
 				var cellPos = HexGrid.CellPositionFromView (hit);
 				RockMarker.instance.transform.position = HexGrid.ViewCellPosition (cellPos.a, cellPos.b);
+
+				// pickup?
+				if (Input.GetMouseButtonDown (0)) {
+					var hasCell = Grid.instance.grid.HasCellAt (cellPos.a, cellPos.b);
+					if (hasCell && !isCarryingARock) {
+						// pickup
+						isCarryingARock = true;
+						Grid.instance.RemoveCellAt (cellPos.a, cellPos.b);
+					} else if(!hasCell && isCarryingARock) {
+						// putdown
+						isCarryingARock = false;
+						Grid.instance.AddCellAt (cellPos.a, cellPos.b);
+					}
+				}
 			}
 		}
 	}
