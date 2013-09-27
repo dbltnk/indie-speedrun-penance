@@ -44,13 +44,9 @@ public class Grid : MonoBehaviour {
 	
 	}
 
-	void OnDrawGizmos () {
-
-	}
-
 	public Rock FindRockAt(int x, int y) {
-		for (int i = 0; i < Rock.instances.Count; ++i) {
-			var rock = Rock.instances [i].GetComponent<Rock> ();
+		for (int i = 0; i < Rock._instances.Count; ++i) {
+			var rock = Rock._instances [i].GetComponent<Rock> ();
 			if (rock.gridX == x && rock.gridY == y)
 				return rock;
 		}
@@ -66,5 +62,24 @@ public class Grid : MonoBehaviour {
 	public void AddCellAt (int x, int y) {
 		grid.CreateCell (x, y);
 		CreateRockObject (x, y);
+	}
+
+	public UKTuple<int,int> FindNearestRockPosition(Vector3 positionOnGridPlane) {
+		var cellPos = HexGrid.CellPositionFromView (positionOnGridPlane);
+
+		UKTuple<int,int> minPos = new UKTuple<int, int>();
+		float minDist = float.MaxValue;
+
+		for (int dx = -1; dx <= 1; ++dx) {
+			for (int dy = -1; dy <= 1; ++dy) {
+				var pos = HexGrid.ViewCellPosition (cellPos.a + dx, cellPos.b + dy);
+				var dist = Vector3.Distance (pos, positionOnGridPlane);
+				if (dist < minDist) {
+
+				}
+			}
+		}
+
+		return minPos;
 	}
 }

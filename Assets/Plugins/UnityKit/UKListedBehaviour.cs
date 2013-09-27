@@ -5,13 +5,19 @@ using System.Collections.Generic;
 public class UKListedBehaviour<T> : MonoBehaviour
 	where T : Component
 {
-	public static List<UKListedBehaviour<T>> instances = new List<UKListedBehaviour<T>>();
+	public static List<UKListedBehaviour<T>> _instances = new List<UKListedBehaviour<T>>();
+
+	public static IEnumerable<T> Instances {
+		get {
+			foreach(var it in _instances) yield return it.GetComponent<T>();
+		}
+	}
 
 	public virtual void Awake () {
-		instances.Add (this);
+		_instances.Add (this);
 	}
 
 	public virtual void OnDestroy () {
-		instances.Remove (this);
+		_instances.Remove (this);
 	}
 }
