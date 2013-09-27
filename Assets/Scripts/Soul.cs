@@ -26,13 +26,15 @@ public class Soul : MonoBehaviour {
 	void Update () {
 		var mX = Input.GetAxis ("Mouse X");
 		var mY = Input.GetAxis ("Mouse Y");
-		
+
+		// look around
 		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
 		head.transform.Rotate (new Vector3 (-mY, 0f, 0f) * rotateSpeed);
 			
 		var kX = Input.GetAxis ("Vertical");
 		var kY = Input.GetAxis ("Horizontal");
 
+		// move wasd
 		Vector3 movement = transform.TransformDirection (Vector3.forward) * movementSpeed * kX;
 		movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;
 
