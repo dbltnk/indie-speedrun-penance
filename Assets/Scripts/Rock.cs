@@ -20,13 +20,17 @@ public class Rock : MonoBehaviour {
 		fallDownIn = Random.Range (2f, 10f);
 		fallSpeed = Random.Range (2f, 5f);
 	}
-	
+
+	void BreakApart () {
+		mode = Mode.FALLING;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (mode == Mode.IDLE) fallDownIn -= Time.deltaTime;
 
 		if (fallDownIn < 0f && mode == Mode.IDLE) {
-			mode = Mode.FALLING;
+			// BreakApart ();
 		} 
 
 		if (mode == Mode.FALLING) {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UKTuple<A,B>
+public struct UKTuple<A,B>
 {
 	public A a;
 	public B b;
@@ -14,7 +14,7 @@ public class UKTuple<A,B>
 	}
 }
 
-public class UKTuple<A,B,C>
+public struct UKTuple<A,B,C>
 {
 	public A a;
 	public B b;
@@ -28,7 +28,7 @@ public class UKTuple<A,B,C>
 	}
 }
 
-public class UKTuple<A,B,C,D>
+public struct UKTuple<A,B,C,D>
 {
 	public A a;
 	public B b;
