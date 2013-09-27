@@ -23,7 +23,18 @@ public class Soul : MonoBehaviour {
 	void Start () {
 	
 	}
-	
+
+	void OnDrawGizmos () {
+		Plane p = new Plane (Vector3.up, Vector3.zero);
+		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
+		float enter = 0f;
+		if (p.Raycast (r, out enter)) {
+			var hit = r.GetPoint (enter);
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawSphere (hit, 0.2f);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		var mX = Input.GetAxis ("Mouse X");
@@ -49,7 +60,7 @@ public class Soul : MonoBehaviour {
 			float enter = 0f;
 			if (p.Raycast (r, out enter)) {
 				var hit = r.GetPoint (enter);
-				var cellPos = HexGrid.CellPositionFromView (hit);
+				var cellPos = Grid.instance.FindNearestRockPosition (hit);
 				RockMarker.instance.transform.position = HexGrid.ViewCellPosition (cellPos.a, cellPos.b);
 
 				// pickup?

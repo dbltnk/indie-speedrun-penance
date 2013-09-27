@@ -44,4 +44,9 @@ public class Rock : UKListedBehaviour<Rock> {
 		}
 
 	}
+
+	void OnDrawGizmosSelected () {
+		Gizmos.color = Color.red;
+		Gizmos.DrawSphere (HexGrid.ViewCellPosition (gridX, gridY), 0.1f);
+	}
 }

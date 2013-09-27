@@ -80,7 +80,9 @@ public class Grid : MonoBehaviour {
 				var pos = HexGrid.ViewCellPosition (cellPos.a + dx, cellPos.b + dy);
 				var dist = Vector3.Distance (pos, positionOnGridPlane);
 				if (dist < minDist) {
-
+					minPos.a = cellPos.a + dx;
+					minPos.b = cellPos.b + dy;
+					minDist = dist;
 				}
 			}
 		}
