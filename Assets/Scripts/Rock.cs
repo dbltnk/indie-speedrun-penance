@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Rock : MonoBehaviour {
+public class Rock : UKListedBehaviour<Rock> {
 	public int gridX;
 	public int gridY;
 
@@ -36,5 +36,7 @@ public class Rock : MonoBehaviour {
 		if (mode == Mode.FALLING) {
 			transform.Translate (Vector3.down * fallSpeed * Time.deltaTime);
 		}
+
+		Debug.Log (instances.Count);
 	}
 }
