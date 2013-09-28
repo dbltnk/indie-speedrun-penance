@@ -19,8 +19,6 @@ public class Grid : MonoBehaviour {
 	void Awake () {
 		instance = this;
 	}
-	
-	public bool groupsDirty;
 
 	private Rock CreateRockObject(int x, int y) {
 		var go = GameObject.Instantiate (prefabRock) as GameObject;
@@ -50,15 +48,19 @@ public class Grid : MonoBehaviour {
 			//Debug.Log(rock);
 			//rock.BreakApart();
 		}
-		
-		RecalculateGroups ();
 
+<<<<<<< HEAD
+		//RecalculateGroups ();
+		
 		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROPEVERY, Constants.instance.DROPEVERY);
+=======
+		RecalculateGroups ();
+>>>>>>> 979873123294ba90fac538a92dca477be96a76cc
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (groupsDirty) RecalculateGroups();	
+				
 	}
 
 	public Rock FindRockAt(int x, int y) {
@@ -75,7 +77,7 @@ public class Grid : MonoBehaviour {
 		GameObject.Destroy (rock.gameObject);
 		grid.RemoveCell (x, y);
 
-		groupsDirty = true;
+		RecalculateGroups ();
 	}
 
 	public void AddCellAt (int x, int y) {
@@ -83,7 +85,7 @@ public class Grid : MonoBehaviour {
 		var rock = CreateRockObject (x, y);
 		rock.Connect ();
 
-		groupsDirty = true;
+		RecalculateGroups ();
 	}
 
 	public UKTuple<int,int> FindNearestRockPosition(Vector3 positionOnGridPlane) {
@@ -129,8 +131,6 @@ public class Grid : MonoBehaviour {
 
 			startRock = uncheckedRocks.FirstOrDefault ();
 		}
-		
-		groupsDirty = false;
 	}
 
 	void ExpandAndRemove (Rock startRock)
@@ -162,12 +162,11 @@ public class Grid : MonoBehaviour {
 			}
 		}
 	}
+<<<<<<< HEAD
 	
 	void BreakApartAtTheEdges () {
 		
-		Rock[] candidates = Rock.Instances.Where(it => it.mode == Rock.Mode.IDLE && !IsRoot(it)).ToArray();
-		
-		Vector3 root = FindRockAt(rootGridX, rootGridY).transform.position;
+		Rock[] candidates = Rock.Instances.Where(it => it.mode == Rock.Mode.IDLE).ToArray();
 		
 		if (candidates.Length > 0) {
 		
@@ -176,38 +175,21 @@ public class Grid : MonoBehaviour {
 		          return 1;
 		        else if (a.neighbours.Count < b.neighbours.Count)
 		          return -1;
-		        else {
-					float aDist = Vector3.Distance(root, a.transform.position);
-					float bDist = Vector3.Distance(root, b.transform.position);
-					if (aDist < bDist)
-						return 1;
-					else if (aDist > bDist)
-						return -1;
-					else
-						return 0;
-				}
-		          
+		        else
+		          return 0;
 			});
 			
-			//foreach (Rock rock in candidates) {
-			//	Debug.Log(rock);
-			//}
+			foreach (Rock rock in candidates) {
+				Debug.Log(rock);
+			}
 			
 			candidates[0].BreakApart();
 		}
-	}
+=======
 
 	public bool CanRockBePicked (int x, int y)
 	{
 		return x != rootGridX || y != rootGridY;
-	}
-	
-	public bool IsRoot(Rock it) {
-		if (it.gridX == rootGridX && it.gridY == rootGridY) {	
-			return true;	
-		}	
-		else {
-			return false;
-		}
+>>>>>>> 979873123294ba90fac538a92dca477be96a76cc
 	}
 }

@@ -51,14 +51,19 @@ public class Rock : UKListedBehaviour<Rock> {
 		foreach (var nRock in neighbours) {
 			nRock.neighbours.Remove (this);
 		}
+		neighbours.Clear();
 	}
 
 	public void BreakApart () {
-		mode = Mode.FALLING;
+		if (Grid.instance.IsRoot(this) == false && mode == Mode.IDLE) {
+			mode = Mode.FALLING;
+			Disconnect();
+			Grid.instance.groupsDirty = true;
+		}
 	}
 
 	void CheckStillConnected () {
-		var centerRock = Grid.instance.FindRockAt(7,7);
+		var centerRock = Grid.instance.FindRockAt(Grid.instance.rootGridX,Grid.instance.rootGridY);
 		
 		if (mode == Mode.IDLE && groupNr > 0 && centerRock != null && groupNr != centerRock.groupNr) {
 			BreakApart ();
@@ -69,9 +74,9 @@ public class Rock : UKListedBehaviour<Rock> {
 	void Update () {
 		if (mode == Mode.IDLE) fallDownIn -= Time.deltaTime;
 
-		if (fallDownIn < 0f && mode == Mode.IDLE) {
-			// BreakApart ();
-		} 
+		//if (fallDownIn < 0f && mode == Mode.IDLE) {
+		//	BreakApart ();
+		//} 
 
 		if (mode == Mode.FALLING) {
 			transform.Translate (Vector3.down * fallSpeed * Time.deltaTime);
