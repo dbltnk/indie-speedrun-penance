@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Rock : UKListedBehaviour<Rock> {
 	public HexGrid<Rock,int>.HexCell<Rock> cell;
+	
+	public GameObject rotator;
 
 	public int gridX {
 		get { return cell != null ? cell.x : 0; }
@@ -33,6 +35,13 @@ public class Rock : UKListedBehaviour<Rock> {
 		fallSpeed = Random.Range (2f, 5f);
 
 		InvokeRepeating ("CheckStillConnected", 0.25f, 0.25f);
+		
+		int randomNumber;
+		randomNumber = Random.Range(1,6);
+		float yRotation = 60f;
+		yRotation = randomNumber * yRotation;
+		Quaternion rotation = Quaternion.Euler(new Vector3(0, yRotation, 0));
+		rotator.transform.rotation = rotation;
 	}
 
 	public void Connect() {
