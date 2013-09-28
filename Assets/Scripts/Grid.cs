@@ -47,7 +47,7 @@ public class Grid : MonoBehaviour {
 
 		RecalculateGroups ();
 
-		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROPEVERY, Constants.instance.DROPEVERY);
+		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROP_EVERY, Constants.instance.DROP_EVERY);
 	}
 	
 	// Update is called once per frame

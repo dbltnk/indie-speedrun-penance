@@ -21,6 +21,9 @@ public class CenterGuiOnScreen : MonoBehaviour {
 		float w = guiTexture.texture.width;
 		float h = guiTexture.texture.height;
 
-		guiTexture.pixelInset = new Rect ((Screen.width - w) / 2f, (Screen.height - h) / 2f, w, h);
+		float x = Screen.width * Constants.instance.SCREEN_PICK_RAY_START.x;
+		float y = Screen.height * (1f - Constants.instance.SCREEN_PICK_RAY_START.y);
+
+		guiTexture.pixelInset = new Rect (x - w / 2f, y - h / 2f, w, h);
 	}
 }

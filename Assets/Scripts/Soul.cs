@@ -41,8 +41,11 @@ public class Soul : MonoBehaviour {
 	}
 
 	void OnDrawGizmos () {
+		if (Camera.main == null)
+			return;
+
 		Plane p = new Plane (Vector3.up, Vector3.zero);
-		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
+		Ray r = Camera.main.ViewportPointToRay (Constants.instance.SCREEN_PICK_RAY_START);
 		float enter = 0f;
 		if (p.Raycast (r, out enter)) {
 			var hit = r.GetPoint (enter);
@@ -98,7 +101,7 @@ public class Soul : MonoBehaviour {
 
 
 		// dispenser?
-		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
+		Ray r = Camera.main.ViewportPointToRay (Constants.instance.SCREEN_PICK_RAY_START);
 		if (isCarryingARock == false && Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
 			if (RockDispenser.instance.HasRocks() && RockDispenser.instance._collider.Raycast (r, out hit, float.MaxValue)) {

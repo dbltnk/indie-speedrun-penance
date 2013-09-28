@@ -85,7 +85,7 @@ public class Rock : UKListedBehaviour<Rock> {
 
 		// Debug.Log (instances.Count);
 
-		if (transform.position.y < Constants.instance.DESPAWNHEIGHT) {
+		if (transform.position.y < Constants.instance.DESPAWN_HEIGHT) {
 			GameObject.Destroy (gameObject);
 		}
 
