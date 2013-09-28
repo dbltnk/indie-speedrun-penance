@@ -22,6 +22,8 @@ public class Soul : MonoBehaviour {
 
 	public Vector3 velocity;
 
+	public bool jumpIfPossible;
+
 	void Awake () {
 		instance = this;
 		_controller = GetComponent<CharacterController> ();
@@ -57,7 +59,13 @@ public class Soul : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
+		// jump trigger
+		if (Input.GetKeyDown (KeyCode.Space))
+			jumpIfPossible = true;
+		if (Input.GetKey (KeyCode.Space) == false)
+			jumpIfPossible = false;
+
+
 		bool markerInDist = IsInPickupDistance(RockMarker.instance.transform.position);
 		RockMarker.instance.gameObject.SetActive(markerInDist);
 		
@@ -78,7 +86,8 @@ public class Soul : MonoBehaviour {
 		if (_controller.isGrounded == false) {
 			velocity += gravity;
 		} else {
-			if (Input.GetKey (KeyCode.Space)) {
+			if (jumpIfPossible) {
+				jumpIfPossible = false;
 				velocity = Vector3.up * jumpSpeed;
 			} else {
 				velocity = Vector3.zero;

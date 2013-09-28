@@ -70,12 +70,13 @@ MonoBehaviour:
   gravity: {x: 0, y: -3, z: 0}
   movementSpeed: 5
   rotateSpeed: 5
-  jumpSpeed: 6
+  jumpSpeed: 8
   minPickupDistance: 1.5
   maxPickupDistance: 4
   isCarryingARock: 0
   currentBelowRock: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
+  jumpIfPossible: 0
 --- !u!143 &14300000
 CharacterController:
   m_ObjectHideFlags: 1
