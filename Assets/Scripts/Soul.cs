@@ -128,6 +128,7 @@ public class Soul : MonoBehaviour {
 				if (IsInPickupDistance(hitPosOnGround)) {
 					isCarryingARock = true;
 					UpdateMarker ();
+					AudioManager.instance.playSound ("pick_dispenser");
 				}
 			}
 		}
@@ -157,12 +158,14 @@ public class Soul : MonoBehaviour {
 							var rock = Grid.instance.FindRockAt (cellPos.a, cellPos.b);
 							Grid.instance.RemoveRockFromGrid (rock);
 							GameObject.Destroy (rock.gameObject);
+							AudioManager.instance.playSound ("pick_ground");
 						} else if (!hasCell && isCarryingARock) {
 							// putdown
 							isCarryingARock = false;
 							UpdateMarker ();
 							var rock = Grid.instance.CreateRockObject (cellPos.a, cellPos.b);
 							Grid.instance.AddRockToGrid (rock, cellPos.a, cellPos.b);
+							AudioManager.instance.playSound ("place_ground");
 						}
 					}
 				}

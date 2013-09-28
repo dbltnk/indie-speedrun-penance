@@ -45,8 +45,8 @@ MonoBehaviour:
   - name: jump0
     clip: {fileID: 8300000, guid: 08b1ff2ab0d5b44d19861f5fc864f185, type: 3}
     volume: 1
-  - name: jump1
-    clip: {fileID: 8300000, guid: 996f72b23914f4c359d0fcb52421e543, type: 3}
+  - name: ground
+    clip: {fileID: 8300000, guid: 08b1ff2ab0d5b44d19861f5fc864f185, type: 3}
     volume: 1
   - name: step0
     clip: {fileID: 8300000, guid: 54445ff09f3e8469ca713bef82e81d79, type: 3}
@@ -56,6 +56,9 @@ MonoBehaviour:
     volume: .5
   - name: step2
     clip: {fileID: 8300000, guid: df47595251b84469aaf3b45bacca505a, type: 3}
+    volume: .5
+  - name: pick_dispenser
+    clip: {fileID: 8300000, guid: 19ebf52177d24430585e41bac7d6765a, type: 3}
     volume: .5
   musics:
   - name: ambience0
