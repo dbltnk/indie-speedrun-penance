@@ -38,13 +38,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28e7c31e8d622ea44a6e45b098ee1eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CHEATS_ENABLED: 1
   DESPAWN_HEIGHT: -30
   DROP_EVERY_MIN: 1
   DROP_EVERY_MAX: 5
   SCREEN_PICK_RAY_START: {x: .5, y: .550000012, z: 0}
   MIN_AGE_BEFORE_BREAK: 5
   IN_AIR_TIMEOUT: 1
-  CRACLE_TIME: 3
+  CRACLE_TIME: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

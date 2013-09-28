@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		grid = new HexGrid<Rock,int> (15, 15);
+		grid = new HexGrid<Rock,int> (7, 7);
 		rocks = new List<GameObject> ();
 
 		foreach (var cell in grid.EnumCells().ToList()) {
@@ -166,12 +166,13 @@ public class Grid : MonoBehaviour {
 	}
 	
 	void BreakApartAtTheEdges () {
-		
+		var rootPos = GetRoot ().transform.position;
 		Rock[] candidates = Rock.Instances.Where(it => 
-		                                         it.mode == Rock.Mode.IDLE && 
-		                                         !IsRoot(it) &&
-		                                         it.Age > Constants.instance.MIN_AGE_BEFORE_BREAK
-		                                       ).ToArray();
+             it.mode == Rock.Mode.IDLE && 
+             !IsRoot(it) &&
+             it.Age > Constants.instance.MIN_AGE_BEFORE_BREAK &&
+             Vector3.Distance(it.transform.position, rootPos) > Constants.instance.MIN_RADIUS_TO_KEEP_AROUND_ROOT
+           ).ToArray();
 		
 		Vector3 root = FindRockAt(rootGridX, rootGridY).transform.position;
 		Vector3 goalObject = goal.transform.position;

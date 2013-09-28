@@ -155,6 +155,9 @@ public class Soul : MonoBehaviour {
 							AudioManager.instance.playSound ("place_ground");
 						}
 					}
+					if (Input.GetKey (KeyCode.F)) {
+						gravity = Vector3.zero;
+					}
 					if (Input.GetKey(KeyCode.E)) {
 						var cell = Grid.instance.grid.GetCellAt (cellPos.a, cellPos.b);
 						if (cell != null) {

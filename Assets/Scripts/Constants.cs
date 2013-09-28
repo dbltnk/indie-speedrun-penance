@@ -13,6 +13,7 @@ public class Constants : MonoBehaviour {
 	public float MIN_AGE_BEFORE_BREAK;
 	public float IN_AIR_TIMEOUT;
 	public float CRACLE_TIME;
+	public float MIN_RADIUS_TO_KEEP_AROUND_ROOT;
 	
 	void Awake () {
 		instance = this;

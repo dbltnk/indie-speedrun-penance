@@ -155,7 +155,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: ee38fca0b60791c4ba03de4177e6e00d, type: 2}
+  - {fileID: 2100000, guid: f3e9d7f175e4c4bb4b7b3d664e46117c, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -222,6 +222,7 @@ MonoBehaviour:
   neighbours: []
   mode: 0
   gravitation: {x: 0, y: -6, z: 0}
+  creationTime: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
