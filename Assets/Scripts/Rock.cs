@@ -30,6 +30,14 @@ public class Rock : UKListedBehaviour<Rock> {
 
 	public Vector3 gravitation;
 
+	public float creationTime;
+
+	public float Age {
+		get {
+			return Time.time - creationTime;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating ("CheckStillConnected", 0.25f, 0.25f);
@@ -40,6 +48,8 @@ public class Rock : UKListedBehaviour<Rock> {
 		yRotation = randomNumber * yRotation;
 		Quaternion rotation = Quaternion.Euler(new Vector3(0, yRotation, 0));
 		rotator.transform.rotation = rotation;
+
+		creationTime = Time.time;
 	}
 
 	public void Connect() {

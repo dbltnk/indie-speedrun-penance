@@ -41,7 +41,7 @@ public class Soul : MonoBehaviour {
 	}
 
 	void OnDrawGizmos () {
-		if (Camera.main == null)
+		if (Camera.main == null || Constants.instance == null)
 			return;
 
 		Plane p = new Plane (Vector3.up, Vector3.zero);

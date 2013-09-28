@@ -40,7 +40,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DESPAWN_HEIGHT: -30
   DROP_EVERY: 1
-  SCREEN_PICK_RAY_START: {x: .5, y: .5, z: 0}
+  SCREEN_PICK_RAY_START: {x: .5, y: .550000012, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

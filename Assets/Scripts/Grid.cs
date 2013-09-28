@@ -157,7 +157,11 @@ public class Grid : MonoBehaviour {
 	
 	void BreakApartAtTheEdges () {
 		
-		Rock[] candidates = Rock.Instances.Where(it => it.mode == Rock.Mode.IDLE && !IsRoot(it)).ToArray();
+		Rock[] candidates = Rock.Instances.Where(it => 
+		                                         it.mode == Rock.Mode.IDLE && 
+		                                         !IsRoot(it) &&
+		                                         it.Age > Constants.instance.MIN_AGE_BEFORE_BREAK
+		                                       ).ToArray();
 		
 		Vector3 root = FindRockAt(rootGridX, rootGridY).transform.position;
 		Vector3 goalObject = goal.transform.position;
