@@ -84,7 +84,7 @@ GameObject:
   - 4: {fileID: 24084724}
   - 108: {fileID: 24084723}
   m_Layer: 0
-  m_Name: Directional light
+  m_Name: Light from Heaven
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,11 +98,11 @@ Light:
   m_GameObject: {fileID: 24084722}
   m_Enabled: 1
   serializedVersion: 3
-  m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Type: 0
+  m_Color: {r: .786764741, g: .911764741, b: 1, a: 1}
   m_Intensity: .5
-  m_Range: 10
-  m_SpotAngle: 30
+  m_Range: 1000
+  m_SpotAngle: 67
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -131,8 +131,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 24084722}
-  m_LocalRotation: {x: .408217967, y: -.234569743, z: .109381683, w: .875426114}
-  m_LocalPosition: {x: -7.62939453e-05, y: 12.0498838, z: -.000379562378}
+  m_LocalRotation: {x: .838670552, y: -1.28525244e-08, z: -1.28525253e-08, w: .544639051}
+  m_LocalPosition: {x: 15, y: 35, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -181,6 +181,8 @@ MonoBehaviour:
   gravity: {x: 0, y: -3, z: 0}
   movementSpeed: 5
   rotateSpeed: 5
+  minPickupDistance: 1.5
+  maxPickupDistance: 4
   isCarryingARock: 0
 --- !u!143 &82284407
 CharacterController:
