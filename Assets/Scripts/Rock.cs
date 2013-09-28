@@ -66,8 +66,7 @@ public class Rock : UKListedBehaviour<Rock> {
 	public void BreakApart () {
 		if (Grid.instance.IsRoot(this) == false && mode == Mode.IDLE) {
 			mode = Mode.FALLING;
-			Disconnect();
-			Grid.instance.groupsDirty = true;
+			Grid.instance.RemoveRockFromGrid (this);
 		}
 	}
 
@@ -94,7 +93,7 @@ public class Rock : UKListedBehaviour<Rock> {
 		// Debug.Log (instances.Count);
 
 		if (transform.position.y < Constants.instance.DESPAWNHEIGHT) {
-			Grid.instance.RemoveCellAt (gridX, gridY);
+			GameObject.Destroy (gameObject);
 		}
 
 	}
@@ -115,6 +114,8 @@ public class Rock : UKListedBehaviour<Rock> {
 	}
 
 	public override void OnDestroy() {
+		if (cell != null)
+			Grid.instance.RemoveRockFromGrid (this);
 		base.OnDestroy();
 	}
 }
