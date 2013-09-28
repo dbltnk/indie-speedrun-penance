@@ -2584,7 +2584,7 @@ Transform:
   m_PrefabInternal: {fileID: 1800985641}
   m_GameObject: {fileID: 1582827867}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 18, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2601,6 +2601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DESPAWNHEIGHT: -30
+  DROPEVERY: 1
 --- !u!1 &1772740696
 GameObject:
   m_ObjectHideFlags: 0
@@ -2660,6 +2661,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
       propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
+      propertyPath: DROPEVERY
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

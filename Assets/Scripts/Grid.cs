@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Grid : MonoBehaviour {
 	public static Grid instance;
@@ -45,6 +47,8 @@ public class Grid : MonoBehaviour {
 		}
 
 		//RecalculateGroups ();
+		
+		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROPEVERY, Constants.instance.DROPEVERY);
 	}
 	
 	// Update is called once per frame
@@ -160,6 +164,29 @@ public class Grid : MonoBehaviour {
 				rock.groupNr = nr;
 				border.Add (rock);
 			}
+		}
+	}
+	
+	void BreakApartAtTheEdges () {
+		
+		Rock[] candidates = Rock.Instances.Where(it => it.mode == Rock.Mode.IDLE).ToArray();
+		
+		if (candidates.Length > 0) {
+		
+			Array.Sort(candidates, (a, b) => {
+				if (a.neighbours.Count > b.neighbours.Count)
+		          return 1;
+		        else if (a.neighbours.Count < b.neighbours.Count)
+		          return -1;
+		        else
+		          return 0;
+			});
+			
+			foreach (Rock rock in candidates) {
+				Debug.Log(rock);
+			}
+			
+			candidates[0].BreakApart();
 		}
 	}
 }
