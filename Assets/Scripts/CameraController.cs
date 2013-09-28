@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
+	
+	public float dY;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -13,7 +16,7 @@ public class CameraController : MonoBehaviour {
 		if (s == null)
 			return;
 
-		transform.position = s.transform.position;
+		transform.position = s.transform.position + new Vector3(0, dY, 0);
 		var soulPointInForward = s.head.transform.position + s.head.transform.TransformDirection (Vector3.forward);
 		transform.LookAt (soulPointInForward);
 	}
