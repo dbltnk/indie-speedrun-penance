@@ -6,11 +6,11 @@ public class Rock : UKListedBehaviour<Rock> {
 	public HexGrid<Rock,int>.HexCell<Rock> cell;
 
 	public int gridX {
-		get { return cell.x; }
+		get { return cell != null ? cell.x : 0; }
 	}
 
 	public int gridY {
-		get { return cell.y; }
+		get { return cell != null ? cell.y : 0; }
 	}
 
 	public int groupNr;
