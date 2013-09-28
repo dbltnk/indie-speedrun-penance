@@ -9,9 +9,12 @@ public class Grid : MonoBehaviour {
 
 	public GameObject prefabRock;
 
-	public HexGrid grid;
+	public HexGrid<Rock,int> grid;
 
 	public List<GameObject> rocks;
+
+	public int rootGridX;
+	public int rootGridY;
 
 	void Awake () {
 		instance = this;
@@ -19,21 +22,21 @@ public class Grid : MonoBehaviour {
 
 	private Rock CreateRockObject(int x, int y) {
 		var go = GameObject.Instantiate (prefabRock) as GameObject;
-		go.name = string.Format ("cell_{0}_{1}", x, y);
+		go.name = string.Format ("rock_x{0}_y{1}", x, y);
 		go.transform.parent = transform;
 		rocks.Add (go);
-		go.transform.position = HexGrid.ViewCellPosition(x,y);
+		go.transform.position = HexGrid<Rock,int>.ViewCellPosition(x,y);
 
 		var rock = go.GetComponent<Rock> ();
-		rock.gridX = x;
-		rock.gridY = y;
+		rock.cell = grid.GetCellAt (x, y);
+		rock.cell.param = rock;
 
 		return rock;
 	}
 
 	// Use this for initialization
 	void Start () {
-		grid = new HexGrid (5, 5);
+		grid = new HexGrid<Rock,int> (15, 15);
 		rocks = new List<GameObject> ();
 
 		foreach (var cell in grid.EnumCells()) {
@@ -46,7 +49,7 @@ public class Grid : MonoBehaviour {
 			//rock.BreakApart();
 		}
 
-		//RecalculateGroups ();
+		RecalculateGroups ();
 		
 		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROPEVERY, Constants.instance.DROPEVERY);
 	}
@@ -57,37 +60,39 @@ public class Grid : MonoBehaviour {
 	}
 
 	public Rock FindRockAt(int x, int y) {
-		foreach (var rock in Rock.Instances) {
-			if (rock != null && rock.gridX == x && rock.gridY == y)
-				return rock;
-		}
+		if (grid.HasCellAt (x, y) == false)
+			return null;
 
-		return null;
+		var cell = grid.GetCellAt (x, y);
+		return cell.param;
 	}
 
 	public void RemoveCellAt (int x, int y) {
-		grid.RemoveCell (x, y);
 		var rock = FindRockAt (x, y);
-		GameObject.Destroy (rock.gameObject);
-		//RecalculateGroups ();
 		rock.Disconnect ();
+		GameObject.Destroy (rock.gameObject);
+		grid.RemoveCell (x, y);
+
+		RecalculateGroups ();
 	}
 
 	public void AddCellAt (int x, int y) {
 		grid.CreateCell (x, y);
 		var rock = CreateRockObject (x, y);
 		rock.Connect ();
+
+		RecalculateGroups ();
 	}
 
 	public UKTuple<int,int> FindNearestRockPosition(Vector3 positionOnGridPlane) {
-		var cellPos = HexGrid.CellPositionFromView (positionOnGridPlane);
+		var cellPos = HexGrid<Rock,int>.CellPositionFromView (positionOnGridPlane);
 
 		UKTuple<int,int> minPos = new UKTuple<int, int>();
 		float minDist = float.MaxValue;
 
 		for (int dx = -1; dx <= 1; ++dx) {
 			for (int dy = -1; dy <= 1; ++dy) {
-				var pos = HexGrid.ViewCellPosition (cellPos.a + dx, cellPos.b + dy);
+				var pos = HexGrid<Rock,int>.ViewCellPosition (cellPos.a + dx, cellPos.b + dy);
 				var dist = Vector3.Distance (pos, positionOnGridPlane);
 				if (dist < minDist) {
 					minPos.a = cellPos.a + dx;
@@ -110,34 +115,27 @@ public class Grid : MonoBehaviour {
 		}
 
 		// start
-		var startRock = FindRockAt (0, 0);
-		if (startRock == null)
-			return;
+		var startRock = FindRockAt (rootGridX, rootGridY);
 
-		List<Rock> toCheck = new List<Rock> ();
-		toCheck.AddRange (Rock.Instances);
-
-		while (true) {
-			toCheck.Remove (startRock);
+		while (startRock != null) {
 			startRock.groupNr = nextGroundNr;
 			++nextGroundNr;
 
-			ExpandAndRemove (startRock, toCheck);
+			ExpandAndRemove (startRock);
 
-			if (toCheck.Count == 0)
-				return;
+			var uncheckedRocks = Rock.Instances.Where(it => it.groupNr == 0);
 
-			startRock = toCheck [0];
+			startRock = uncheckedRocks.FirstOrDefault ();
 		}
 	}
 
-	void ExpandAndRemove (Rock startRock, List<Rock> toCheck)
+	void ExpandAndRemove (Rock startRock)
 	{
 		int nr = startRock.groupNr;
 
-		List<Rock> border = new List<Rock> ();
+		Queue<Rock> border = new Queue<Rock> ();
 
-		border.Add (startRock);
+		border.Enqueue (startRock);
 
 		int safe = 10000;
 
@@ -146,23 +144,17 @@ public class Grid : MonoBehaviour {
 			if (safe < 0) break;
 
 			// pick one and assign nr
-			var cellRock = border [0];
-			border.RemoveAt (0);
-			toCheck.Remove (cellRock);
-
-			// TODO XXX there is a bug!!!!
-
+			var cellRock = border.Dequeue();
+			
 			// check neighbours
-			foreach (var nCell in grid.EnumCellNeighbours(cellRock.gridX, cellRock.gridY)) {
-				var rock = FindRockAt (nCell.x, nCell.y);
-
+			foreach (var rock in cellRock.neighbours) {
 				// hole or already visited?
-				if (rock == null || rock.groupNr > 0)
+				if (rock.groupNr > 0)
 					continue;
 
 				// extend border
 				rock.groupNr = nr;
-				border.Add (rock);
+				border.Enqueue (rock);
 			}
 		}
 	}
@@ -188,5 +180,10 @@ public class Grid : MonoBehaviour {
 			
 			candidates[0].BreakApart();
 		}
+	}
+
+	public bool CanRockBePicked (int x, int y)
+	{
+		return x != rootGridX || y != rootGridY;
 	}
 }

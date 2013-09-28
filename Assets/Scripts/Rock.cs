@@ -3,8 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Rock : UKListedBehaviour<Rock> {
-	public int gridX;
-	public int gridY;
+	public HexGrid<Rock,int>.HexCell<Rock> cell;
+
+	public int gridX {
+		get { return cell.x; }
+	}
+
+	public int gridY {
+		get { return cell.y; }
+	}
+
 	public int groupNr;
 
 	public enum Mode {
@@ -30,10 +38,12 @@ public class Rock : UKListedBehaviour<Rock> {
 	public void Connect() {
 		neighbours.Clear ();
 
-		foreach (var nPos in HexGrid.EnumNeighbourPositions (gridX, gridY)) {
+		foreach (var nPos in HexGrid<Rock,int>.EnumNeighbourPositions (gridX, gridY)) {
 			var nRock = Grid.instance.FindRockAt (nPos.a, nPos.b);
-			if (nRock != null)
+			if (nRock != null) {
 				neighbours.Add (nRock);
+				if (nRock.neighbours.Contains(this) == false) nRock.neighbours.Add(this);
+			}
 		}
 	}
 
@@ -77,7 +87,7 @@ public class Rock : UKListedBehaviour<Rock> {
 
 	void OnDrawGizmosSelected () {
 		Gizmos.color = Color.red;
-		Gizmos.DrawSphere (HexGrid.ViewCellPosition (gridX, gridY), 0.1f);
+		Gizmos.DrawSphere (HexGrid<Rock,int>.ViewCellPosition (gridX, gridY), 0.1f);
 		
 		Gizmos.color = Color.green;
 		foreach (var nRock in neighbours) {
@@ -85,10 +95,12 @@ public class Rock : UKListedBehaviour<Rock> {
 				continue;
 			Gizmos.DrawLine (transform.position, nRock.transform.position);
 		}
+
+		Gizmos.color = GizmosHelper.COLORS[groupNr % GizmosHelper.COLORS.Length];
+		Gizmos.DrawWireCube (transform.position, new Vector3(1.5f, 0.25f, 1.5f));
 	}
 
 	public override void OnDestroy() {
 		base.OnDestroy();
-		Disconnect ();
 	}
 }

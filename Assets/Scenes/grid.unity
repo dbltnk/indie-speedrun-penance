@@ -180,6 +180,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabRock: {fileID: 100000, guid: 96903368099bb4079a8ee20fddde01a0, type: 2}
   rocks: []
+  rootGridX: 0
+  rootGridY: 0
 --- !u!1001 &193572059
 Prefab:
   m_ObjectHideFlags: 0
@@ -642,7 +644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06d326eeeb694e80a7ed7df24e60622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockCursorOnStart: 0
+  lockCursorOnStart: 1
 --- !u!1 &1748402778
 GameObject:
   m_ObjectHideFlags: 0
