@@ -35,7 +35,7 @@ public class Grid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		grid = new HexGrid<Rock,int> (3, 3);
+		grid = new HexGrid<Rock,int> (15, 15);
 		rocks = new List<GameObject> ();
 
 		foreach (var cell in grid.EnumCells()) {

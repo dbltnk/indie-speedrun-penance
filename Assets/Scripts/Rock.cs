@@ -85,7 +85,7 @@ public class Rock : UKListedBehaviour<Rock> {
 
 	}
 
-	void OnDrawGizmos () {
+	void OnDrawGizmosSelected () {
 		Gizmos.color = Color.red;
 		Gizmos.DrawSphere (HexGrid<Rock,int>.ViewCellPosition (gridX, gridY), 0.1f);
 		
