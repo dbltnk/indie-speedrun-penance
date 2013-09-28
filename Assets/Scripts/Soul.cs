@@ -27,6 +27,12 @@ public class Soul : MonoBehaviour {
 	
 	}
 
+	void UpdateMarker () {
+		if (RockMarker.instance == null)
+			return;
+		RockMarker.instance.isCarryingARock = isCarryingARock;
+	}
+
 	void OnDrawGizmos () {
 		Plane p = new Plane (Vector3.up, Vector3.zero);
 		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
@@ -67,10 +73,12 @@ public class Soul : MonoBehaviour {
 		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
 		if (isCarryingARock == false && Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
-			if (RockDispenser.instance._collider.Raycast (r, out hit, float.MaxValue)) {
+			if (RockDispenser.instance.HasRocks() && RockDispenser.instance._collider.Raycast (r, out hit, float.MaxValue)) {
 				// near enough?
-				if (IsInPickupDistance(hit.point)) {
+				var hitPosOnGround = new Vector3(hit.point.x, 0f, hit.point.z);
+				if (IsInPickupDistance(hitPosOnGround)) {
 					isCarryingARock = true;
+					UpdateMarker ();
 				}
 			}
 		}
@@ -96,10 +104,12 @@ public class Soul : MonoBehaviour {
 						if (canBePicked && hasCell && !isCarryingARock) {
 							// pickup
 							isCarryingARock = true;
+							UpdateMarker ();
 							Grid.instance.RemoveCellAt (cellPos.a, cellPos.b);
 						} else if (!hasCell && isCarryingARock) {
 							// putdown
 							isCarryingARock = false;
+							UpdateMarker ();
 							Grid.instance.AddCellAt (cellPos.a, cellPos.b);
 						}
 					}

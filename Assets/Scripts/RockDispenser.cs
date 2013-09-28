@@ -29,4 +29,9 @@ public class RockDispenser : MonoBehaviour {
 	void Update () {
 
 	}
+
+	public bool HasRocks ()
+	{
+		return Rock._instances.Count < worldRockLimit;
+	}
 }

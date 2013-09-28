@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Marker
+  m_Name: MarkerEmpty
   m_Shader: {fileID: 4800000, guid: 73aad8672516a41849ed445aa7b90a6e, type: 3}
   m_ShaderKeywords: []
   m_SavedProperties:
@@ -24,4 +24,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .647058845, g: .0999135152, b: .647058845, a: .568627477}
+        second: {r: .647058845, g: .0999135152, b: .647058845, a: .286274523}
