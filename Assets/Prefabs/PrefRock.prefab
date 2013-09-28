@@ -216,6 +216,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6cd7492099f46879244b0648f52af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isASoulOnThis: 0
+  moveDownSpeed: 2
+  moveUpSpeed: .0500000007
+  moveDownDepth: .150000006
+  fallingRotationSpeed: 50
+  fallingRotation: {x: 0, y: 0, z: 0}
   rotator: {fileID: 100006}
   velocity: {x: 0, y: 0, z: 0}
   c1: 0

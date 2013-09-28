@@ -4,7 +4,16 @@ using System.Collections.Generic;
 
 public class Rock : UKListedBehaviour<Rock> {
 	public HexGrid<Rock,int>.HexCell<Rock> cell;
-	
+
+	public bool isASoulOnThis;
+
+	public float moveDownSpeed;
+	public float moveUpSpeed;
+	public float moveDownDepth;
+
+	public float fallingRotationSpeed;
+	public Vector3 fallingRotation;
+
 	public GameObject rotator;
 
 	public Vector3 velocity;
@@ -96,6 +105,10 @@ public class Rock : UKListedBehaviour<Rock> {
 
 		AudioManager.instance.playSoundAt (transform.position, "falldown", 10f, 20f);
 
+		fallingRotation = new Vector3 (Random.Range (-fallingRotationSpeed, fallingRotationSpeed),
+		                              Random.Range (-fallingRotationSpeed, fallingRotationSpeed),
+		                              Random.Range (-fallingRotationSpeed, fallingRotationSpeed));
+
 		if (Grid.instance.IsRoot(this) == false) {
 			mode = Mode.FALLING;
 			Grid.instance.RemoveRockFromGrid (this);
@@ -126,10 +139,22 @@ public class Rock : UKListedBehaviour<Rock> {
 	void Update () {
 		if (mode == Mode.FALLING) {
 			velocity += gravitation * Time.deltaTime;
-			transform.Translate (velocity * Time.deltaTime);
+			transform.Translate (velocity * Time.deltaTime, Space.World);
 
 			if (transform.position.y < Constants.instance.DESPAWN_HEIGHT) {
 				GameObject.Destroy (gameObject);
+			}
+
+			transform.Rotate (fallingRotation * Time.deltaTime);
+		} else if (mode == Mode.IDLE) {
+			// push down if someone is on this
+			var pIdle = GetIdlePosition ();
+
+			if (isASoulOnThis) {
+				var pDown = pIdle + Vector3.down * moveDownDepth;
+				transform.position = Vector3.MoveTowards (transform.position, pDown, moveDownSpeed * Time.deltaTime);
+			} else {
+				transform.position = Vector3.MoveTowards (transform.position, pIdle, moveUpSpeed * Time.deltaTime);
 			}
 		}
 
@@ -172,13 +197,15 @@ public class Rock : UKListedBehaviour<Rock> {
 	public void SoulEntersRock () {
 		//Debug.Log("enter", gameObject);
 		// push down
-		Go.to (transform, 1f, new TweenConfig ().position (Vector3.down * 0.15f, true));
+		//Go.to (transform, 1f, new TweenConfig ().position (Vector3.down * 0.15f, true));
+		isASoulOnThis = true;
 	}
 	
 	public void SoulLeavesRock () {
 		//Debug.Log("leave", gameObject);
 		// move back to normal
-		var pos = GetIdlePosition();
-		Go.to (transform, 3f, new TweenConfig ().position (pos, false));
+		//var pos = GetIdlePosition();
+		//Go.to (transform, 3f, new TweenConfig ().position (pos, false));
+		isASoulOnThis = false;
 	}
 }
