@@ -52,6 +52,10 @@ public class Soul : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
+		bool markerInDist = IsInPickupDistance(RockMarker.instance.transform.position);
+		RockMarker.instance.gameObject.SetActive(markerInDist);
+		
 		var mX = Input.GetAxis ("Mouse X");
 		var mY = Input.GetAxis ("Mouse Y");
 

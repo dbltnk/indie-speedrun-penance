@@ -8,6 +8,7 @@ public class Grid : MonoBehaviour {
 	public static Grid instance;
 
 	public GameObject prefabRock;
+	public GameObject goal;
 
 	public HexGrid<Rock,int> grid;
 
@@ -159,20 +160,22 @@ public class Grid : MonoBehaviour {
 		Rock[] candidates = Rock.Instances.Where(it => it.mode == Rock.Mode.IDLE && !IsRoot(it)).ToArray();
 		
 		Vector3 root = FindRockAt(rootGridX, rootGridY).transform.position;
+		Vector3 goalObject = goal.transform.position;
 		
 		if (candidates.Length > 0) {
 		
 			Array.Sort(candidates, (a, b) => {
-				if (a.neighbours.Count > b.neighbours.Count)
+				float aDist = Vector3.Distance(goalObject, a.transform.position);
+				float bDist = Vector3.Distance(goalObject, b.transform.position);
+				
+				if (aDist < bDist)
 		          return 1;
-		        else if (a.neighbours.Count < b.neighbours.Count)
+		        else if (aDist > bDist)
 		          return -1;
 		        else {
-					float aDist = Vector3.Distance(root, a.transform.position);
-					float bDist = Vector3.Distance(root, b.transform.position);
-					if (aDist < bDist)
+					if (a.neighbours.Count > b.neighbours.Count)
 						return 1;
-					else if (aDist > bDist)
+					else if (a.neighbours.Count < b.neighbours.Count)
 						return -1;
 					else
 						return 0;
