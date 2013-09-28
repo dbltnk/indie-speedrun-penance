@@ -6,6 +6,8 @@ using System.Linq;
 public class Grid : MonoBehaviour {
 	public static Grid instance;
 
+	public float currenMaxRootDistance;
+
 	public GameObject prefabRock;
 	public GameObject goal;
 
@@ -44,7 +46,7 @@ public class Grid : MonoBehaviour {
 			AddRockToGrid(rock, cell.x, cell.y);
 		}
 
-		RecalculateGroups ();
+		RecalculateGroupsAndMaxDistance ();
 
 		StartCoroutine (CoBreakApartAtTheEdges ());
 	}
@@ -62,7 +64,7 @@ public class Grid : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (groupsDirty) RecalculateGroups();	
+		if (groupsDirty) RecalculateGroupsAndMaxDistance();	
 	}
 
 	public Rock FindRockAt(int x, int y) {
@@ -109,8 +111,15 @@ public class Grid : MonoBehaviour {
 		return minPos;
 	}
 	
-	public void RecalculateGroups() 
+	public void RecalculateGroupsAndMaxDistance() 
 	{
+		var rootPos = GetRoot ().transform.position;
+
+		currenMaxRootDistance = grid.EnumCells()
+			.Select(it => it.param.transform.position)
+			.Select(it => Vector3.Distance(rootPos, it))
+			.Max();
+
 		int nextGroundNr = 1;
 
 		// reset all

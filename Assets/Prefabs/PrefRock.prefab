@@ -218,6 +218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotator: {fileID: 100006}
   velocity: {x: 0, y: 0, z: 0}
+  c1: 0
+  c2: 0
   groupNr: 0
   neighbours: []
   mode: 0
@@ -1283,7 +1285,7 @@ LODGroup:
   - screenRelativeHeight: .149715647
     renderers:
     - renderer: {fileID: 2300000}
-  - screenRelativeHeight: .0537120588
+  - screenRelativeHeight: .0237691309
     renderers:
     - renderer: {fileID: 2300002}
   m_Enabled: 1

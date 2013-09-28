@@ -7,13 +7,20 @@ public class God : MonoBehaviour {
 	public GameObject limitPosition;
 	public GameObject rootPosition;
 
+	public float moveSpeed;
+
 	// Use this for initialization
 	void Start () {
-		transform.position = startPosition.transform.position;
+		// TODO transform.position = startPosition.transform.position;
+		transform.position = endPosition.transform.position;
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
+		// TODO AdjustPosition ();
+	}
+
+	// Update is called once per frame
+	void AdjustPosition () {
 		var s = startPosition.transform.position;
 		var e = endPosition.transform.position;
 		var l = limitPosition.transform.position;
@@ -24,22 +31,14 @@ public class God : MonoBehaviour {
 		var soulPosOnLine = UKMathHelper.ProjectOntoLine(soulPos, r, r-l);
 
 		var maxD = Vector3.Distance (r, l);
-		var d = Vector3.Distance (r, soulPosOnLine);
+		var g = Grid.instance;
+		var d = g.currenMaxRootDistance - Vector3.Distance(g.GetRoot().transform.position, r);
 
-		float f = 1f;
+		float f = UKMathHelper.MapIntoRange (d, 0f, maxD, 1f, 0f);
 
-		if (UKMathHelper.IsSameDirection (soulPosOnLine - r, r - l)) {
-			// at the start
-			f = 1f;
-		} else if (UKMathHelper.IsSameDirection (l - r, soulPosOnLine - l)) {
-			// at the end
-			f = 0f;
-		} else {
-			f = UKMathHelper.MapIntoRange (d, 0f, maxD, 1f, 0f);
-		}
+		Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
 
-		//Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
-
-		transform.position = Vector3.Lerp (e, s, f);
+		var p = Vector3.Lerp (e, s, f);
+		transform.position = Vector3.MoveTowards (transform.position, p, Time.deltaTime * moveSpeed);
 	}
 }
