@@ -119,15 +119,22 @@ public class Rock : UKListedBehaviour<Rock> {
 		base.OnDestroy();
 	}
 
+	
+	public Vector3 GetIdlePosition(){
+		if (cell != null) return cell.ViewPosition();
+		else return transform.position;
+	}
+	
 	public void SoulEntersRock () {
 		//Debug.Log("enter", gameObject);
 		// push down
-		Go.to (rotator.transform, 0.25f, new TweenConfig ().position (Vector3.down * 0.25f, true));
+		Go.to (transform, 1f, new TweenConfig ().position (Vector3.down * 0.15f, true));
 	}
-
+	
 	public void SoulLeavesRock () {
 		//Debug.Log("leave", gameObject);
 		// move back to normal
-		Go.to (rotator.transform, 3f, new TweenConfig ().position (transform.position, false));
+		var pos = GetIdlePosition();
+		Go.to (transform, 3f, new TweenConfig ().position (pos, false));
 	}
 }
