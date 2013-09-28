@@ -105,12 +105,15 @@ public class Soul : MonoBehaviour {
 							// pickup
 							isCarryingARock = true;
 							UpdateMarker ();
-							Grid.instance.RemoveCellAt (cellPos.a, cellPos.b);
+							var rock = Grid.instance.FindRockAt (cellPos.a, cellPos.b);
+							Grid.instance.RemoveRockFromGrid (rock);
+							GameObject.Destroy (rock.gameObject);
 						} else if (!hasCell && isCarryingARock) {
 							// putdown
 							isCarryingARock = false;
 							UpdateMarker ();
-							Grid.instance.AddCellAt (cellPos.a, cellPos.b);
+							var rock = Grid.instance.CreateRockObject (cellPos.a, cellPos.b);
+							Grid.instance.AddRockToGrid (rock, cellPos.a, cellPos.b);
 						}
 					}
 				}

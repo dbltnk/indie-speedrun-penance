@@ -22,7 +22,7 @@ public class Grid : MonoBehaviour {
 	
 	public bool groupsDirty;
 
-	private Rock CreateRockObject(int x, int y) {
+	public Rock CreateRockObject(int x, int y) {
 		var go = GameObject.Instantiate (prefabRock) as GameObject;
 		go.name = string.Format ("rock_x{0}_y{1}", x, y);
 		go.transform.parent = transform;
@@ -30,8 +30,6 @@ public class Grid : MonoBehaviour {
 		go.transform.position = HexGrid<Rock,int>.ViewCellPosition(x,y);
 
 		var rock = go.GetComponent<Rock> ();
-		rock.cell = grid.GetCellAt (x, y);
-		rock.cell.param = rock;
 
 		return rock;
 	}
@@ -41,16 +39,11 @@ public class Grid : MonoBehaviour {
 		grid = new HexGrid<Rock,int> (15, 15);
 		rocks = new List<GameObject> ();
 
-		foreach (var cell in grid.EnumCells()) {
-			CreateRockObject (cell.x, cell.y);
+		foreach (var cell in grid.EnumCells().ToList()) {
+			var rock = CreateRockObject (cell.x, cell.y);
+			AddRockToGrid(rock, cell.x, cell.y);
 		}
-		
-		foreach (var rock in Rock.Instances) {
-			rock.Connect ();
-			//Debug.Log(rock);
-			//rock.BreakApart();
-		}
-		
+
 		RecalculateGroups ();
 
 		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROPEVERY, Constants.instance.DROPEVERY);
@@ -69,20 +62,18 @@ public class Grid : MonoBehaviour {
 		return cell.param;
 	}
 
-	public void RemoveCellAt (int x, int y) {
-		var rock = FindRockAt (x, y);
+	public void RemoveRockFromGrid (Rock rock) {
+		grid.RemoveCell (rock.cell.x, rock.cell.y);
 		rock.Disconnect ();
-		GameObject.Destroy (rock.gameObject);
-		grid.RemoveCell (x, y);
-
+		rock.cell = null;
 		groupsDirty = true;
 	}
 
-	public void AddCellAt (int x, int y) {
+	public void AddRockToGrid (Rock rock, int x, int y) {
 		grid.CreateCell (x, y);
-		var rock = CreateRockObject (x, y);
+		rock.cell = grid.GetCellAt (x, y);
+		rock.cell.param = rock;
 		rock.Connect ();
-
 		groupsDirty = true;
 	}
 
