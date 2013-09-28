@@ -75,6 +75,11 @@ public class Soul : MonoBehaviour {
 		return minPickupDistance <= d && d <= maxPickupDistance;
 	}
 
+	bool IsInPickupDistanceIgnoringMinDist(Vector3 p) {
+		float d = Vector3.Distance (transform.position, p);
+		return d <= maxPickupDistance;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		// jump trigger
@@ -125,7 +130,7 @@ public class Soul : MonoBehaviour {
 			if (RockDispenser.instance.HasRocks() && RockDispenser.instance._collider.Raycast (r, out hit, float.MaxValue)) {
 				// near enough?
 				var hitPosOnGround = new Vector3(hit.point.x, 0f, hit.point.z);
-				if (IsInPickupDistance(hitPosOnGround)) {
+				if (IsInPickupDistanceIgnoringMinDist(hitPosOnGround)) {
 					isCarryingARock = true;
 					UpdateMarker ();
 					AudioManager.instance.playSound ("pick_dispenser");

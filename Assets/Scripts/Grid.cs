@@ -188,9 +188,12 @@ public class Grid : MonoBehaviour {
 		        else if (aDist > bDist)
 		          return -1;
 		        else {
-					if (a.neighbours.Count > b.neighbours.Count)
+					var va = a.Connectivitiy2;
+					var vb = b.Connectivitiy2;
+
+					if (va > vb)
 						return 1;
-					else if (a.neighbours.Count < b.neighbours.Count)
+					else if (va < vb)
 						return -1;
 					else
 						return 0;
@@ -201,8 +204,10 @@ public class Grid : MonoBehaviour {
 			//foreach (Rock rock in candidates) {
 			//	Debug.Log(rock);
 			//}
-			
-			candidates[0].BreakApart();
+
+			var selectedRock = candidates [0];
+			//Debug.Log (selectedRock.Connectivitiy2);
+			selectedRock.BreakApart();
 		}
 	}
 

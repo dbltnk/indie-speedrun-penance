@@ -38,7 +38,7 @@ public class God : MonoBehaviour {
 			f = UKMathHelper.MapIntoRange (d, 0f, maxD, 1f, 0f);
 		}
 
-		Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
+		//Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
 
 		transform.position = Vector3.Lerp (e, s, f);
 	}

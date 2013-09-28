@@ -9,6 +9,9 @@ public class Rock : UKListedBehaviour<Rock> {
 
 	public Vector3 velocity;
 
+	public int c1;
+	public int c2;
+
 	public int gridX {
 		get { return cell != null ? cell.x : 0; }
 	}
@@ -32,6 +35,21 @@ public class Rock : UKListedBehaviour<Rock> {
 	public Vector3 gravitation;
 
 	public float creationTime;
+
+	public int Connectivitiy1 {
+		get {
+			return (neighbours != null ? neighbours.Count : 0) * 100;
+		}
+	}
+
+	public int Connectivitiy2 {
+		get {
+			int c = Connectivitiy1;
+			int cn = 0;
+			if (neighbours != null) foreach(var n in neighbours) cn += n.Connectivitiy1;
+			return (c + (cn / 6)) / 2;
+		}
+	}
 
 	public float Age {
 		get {
@@ -114,6 +132,9 @@ public class Rock : UKListedBehaviour<Rock> {
 				GameObject.Destroy (gameObject);
 			}
 		}
+
+		c1 = Connectivitiy1;
+		c2 = Connectivitiy2;
 	}
 
 	void OnDrawGizmosSelected () {
@@ -129,6 +150,11 @@ public class Rock : UKListedBehaviour<Rock> {
 
 		Gizmos.color = GizmosHelper.COLORS[groupNr % GizmosHelper.COLORS.Length];
 		Gizmos.DrawWireCube (transform.position, new Vector3(1.5f, 0.25f, 1.5f));
+
+		// connectivity
+		Gizmos.color = Color.yellow;
+		float c = UKMathHelper.MapIntoRange(Connectivitiy2, 0f, 600f, 0f, 10f);
+		Gizmos.DrawLine(transform.position, transform.position + Vector3.up * c);
 	}
 
 	public override void OnDestroy() {
