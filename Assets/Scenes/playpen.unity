@@ -1720,6 +1720,9 @@ GameObject:
   - 81: {fileID: 1379068710}
   - 82: {fileID: 1379068711}
   - 114: {fileID: 1379068714}
+  - 114: {fileID: 1379068716}
+  - 114: {fileID: 1379068717}
+  - 114: {fileID: 1379068715}
   m_Layer: 0
   m_Name: Skybox Camera
   m_TagString: MainCamera
@@ -1854,6 +1857,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockCursorOnStart: 1
+--- !u!114 &1379068715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1379068708}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dad87ba4f1e04d6eb7f287e1f2e08fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: 1
+  screenBlendMode: 0
+  sunTransform: {fileID: 0}
+  radialBlurIterations: 2
+  sunColor: {r: 1, g: 1, b: 1, a: 1}
+  sunShaftBlurRadius: 2.5
+  sunShaftIntensity: 1.14999998
+  useSkyBoxAlpha: .75
+  maxRadius: .75
+  useDepthTexture: 1
+  sunShaftsShader: {fileID: 4800000, guid: d3b1c8c1036784176946f5cfbfb7fe4c, type: 3}
+  simpleClearShader: {fileID: 4800000, guid: f688f89ed5eb847c5b19c934a0f1e772, type: 3}
+--- !u!114 &1379068716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1379068708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c3946ab5378473cb34bedd1c8194ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogMode: 0
+  startDistance: 100
+  globalDensity: .0500000007
+  heightScale: 200
+  height: -300
+  globalFogColor: {r: .485294104, g: .00356834242, b: .00356834242, a: 1}
+  fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
+--- !u!114 &1379068717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1379068708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7914440ac9e4b22a60e4303888e90c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  downsample: 0
+  blurSize: .899999976
+  blurIterations: 1
+  blurType: 0
+  blurShader: {fileID: 4800000, guid: f9d5fa183cd6b45eeb1491f74863cd91, type: 3}
 --- !u!1 &1387323261
 GameObject:
   m_ObjectHideFlags: 0
@@ -3070,7 +3130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DESPAWNHEIGHT: -30
-  DROPEVERY: .100000001
+  DROPEVERY: 10
 --- !u!1 &1668574286
 GameObject:
   m_ObjectHideFlags: 0
@@ -3161,7 +3221,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
       propertyPath: DROPEVERY
-      value: .100000001
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
