@@ -16,7 +16,7 @@ public class HexGrid {
 		v2d.x = (float)x * CELL_DIAMETER_SHORT;
 		v2d.y = (float)y * (CELL_SIDE + CELL_SIDE / 2f);
 
-		if (y % 2 == 1)
+		if (Math.Abs(y) % 2 == 1)
 		{
 			v2d.x += CELL_DIAMETER_SHORT / 2f;
 		}
@@ -26,7 +26,7 @@ public class HexGrid {
 
 	public static UKTuple<int,int> CellPositionFromView(Vector3 p) {
 		int y = Mathf.FloorToInt (p.z / (CELL_SIDE + CELL_SIDE / 2f));
-		float delta = y % 2 == 0 ? 0f : Mathf.FloorToInt(CELL_DIAMETER_SHORT / 2f);
+		float delta = Math.Abs(y) % 2 == 0 ? 0f : Mathf.FloorToInt(CELL_DIAMETER_SHORT / 2f);
 		int x = Mathf.FloorToInt ((p.x + delta) / CELL_DIAMETER_SHORT);
 		return new UKTuple<int, int> (x, y);
 	}
@@ -41,7 +41,7 @@ public class HexGrid {
 		yield return new UKTuple<int, int>(x+0, y-1);
 
 		// additional fields
-		if (y % 2 == 0)
+		if (Math.Abs(y) % 2 == 0)
 		{
 			yield return new UKTuple<int, int>(x-1, y+1);
 			yield return new UKTuple<int, int>(x-1, y-1);

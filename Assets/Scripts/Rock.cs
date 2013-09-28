@@ -3,8 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Rock : UKListedBehaviour<Rock> {
-	public int gridX;
-	public int gridY;
+	public HexGrid.HexCell cell;
+
+	public int gridX {
+		get { return cell.x; }
+	}
+
+	public int gridY {
+		get { return cell.y; }
+	}
+
 	public int groupNr;
 
 	public enum Mode {

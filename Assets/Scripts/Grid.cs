@@ -23,8 +23,7 @@ public class Grid : MonoBehaviour {
 		go.transform.position = HexGrid.ViewCellPosition(x,y);
 
 		var rock = go.GetComponent<Rock> ();
-		rock.gridX = x;
-		rock.gridY = y;
+		rock.cell = grid.GetCellAt (x, y);
 
 		return rock;
 	}
