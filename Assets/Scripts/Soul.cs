@@ -11,6 +11,7 @@ public class Soul : MonoBehaviour {
 	public Vector3 gravity;
 	public float movementSpeed;
 	public float rotateSpeed;
+	public float jumpSpeed;
 
 	public float minPickupDistance;
 	public float maxPickupDistance;
@@ -18,6 +19,8 @@ public class Soul : MonoBehaviour {
 	public bool isCarryingARock;
 
 	public Rock currentBelowRock;
+
+	public Vector3 velocity;
 
 	void Awake () {
 		instance = this;
@@ -72,7 +75,17 @@ public class Soul : MonoBehaviour {
 		Vector3 movement = transform.TransformDirection (Vector3.forward) * movementSpeed * kX;
 		movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;
 
-		_controller.Move((movement + gravity) * Time.deltaTime);
+		if (_controller.isGrounded == false) {
+			velocity += gravity;
+		} else {
+			if (Input.GetKey (KeyCode.Space)) {
+				velocity = Vector3.up * jumpSpeed;
+			} else {
+				velocity = Vector3.zero;
+			}
+		}
+
+		_controller.Move((movement + velocity) * Time.deltaTime);
 
 
 		// dispenser?
