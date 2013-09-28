@@ -4,6 +4,9 @@ using System.Collections;
 public class Constants : MonoBehaviour {
 
 	public static Constants instance;
+	public static Constants i {
+		get { return instance; }
+	}
 
 	public bool CHEATS_ENABLED;
 	public float DESPAWN_HEIGHT;
@@ -14,6 +17,8 @@ public class Constants : MonoBehaviour {
 	public float IN_AIR_TIMEOUT;
 	public float CRACLE_TIME;
 	public float MIN_RADIUS_TO_KEEP_AROUND_ROOT;
+	public float WEIGHT_GOAL_DISTANCE;
+	public float WEIGHT_CONNECTIVITY;
 	
 	void Awake () {
 		instance = this;

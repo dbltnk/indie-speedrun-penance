@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		grid = new HexGrid<Rock,int> (7, 7);
+		grid = new HexGrid<Rock,int> (17, 17);
 		rocks = new List<GameObject> ();
 
 		foreach (var cell in grid.EnumCells().ToList()) {
@@ -176,29 +176,28 @@ public class Grid : MonoBehaviour {
 		
 		Vector3 root = FindRockAt(rootGridX, rootGridY).transform.position;
 		Vector3 goalObject = goal.transform.position;
+		Vector3 goalDir = goalObject - root;
 		
 		if (candidates.Length > 0) {
-		
-			System.Array.Sort(candidates, (a, b) => {
-				float aDist = Vector3.Distance(goalObject, a.transform.position);
-				float bDist = Vector3.Distance(goalObject, b.transform.position);
-				
-				if (aDist < bDist)
-		          return 1;
-		        else if (aDist > bDist)
-		          return -1;
-		        else {
-					var va = a.Connectivitiy2;
-					var vb = b.Connectivitiy2;
+			float wg = Constants.i.WEIGHT_GOAL_DISTANCE;
+			float wc = Constants.i.WEIGHT_CONNECTIVITY;
 
-					if (va > vb)
-						return 1;
-					else if (va < vb)
-						return -1;
-					else
-						return 0;
-				}
-		          
+			System.Array.Sort(candidates, (a, b) => {
+				var pa = a.transform.position;
+				var pb = b.transform.position;
+
+				float aDist = UKMathHelper.MinDistanceToLine(pa, goalObject, goalDir);
+				float bDist = UKMathHelper.MinDistanceToLine(pb, goalObject, goalDir);
+
+				float va = wg * aDist - wc * a.Connectivitiy2;
+				float vb = wg * bDist - wc * b.Connectivitiy2;
+
+				if (va < vb)
+		          	return 1;
+		        else if (va > vb)
+		          	return -1;
+		        else 
+					return 0;     
 			});
 			
 			//foreach (Rock rock in candidates) {

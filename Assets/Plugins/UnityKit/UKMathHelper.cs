@@ -3,6 +3,10 @@ using System.Collections;
 
 public static class UKMathHelper {
 
+	public static float MinDistanceToLine(Vector3 vec, Vector3 linePoint, Vector3 lineDir ) {
+		return Vector3.Distance (ProjectOntoLine (vec, linePoint, lineDir), vec);
+	}
+
 	public static Vector3 ProjectOntoLine( Vector3 vec, Vector3 linePoint, Vector3 lineDir )
 	{
 		var localP = vec - linePoint;
