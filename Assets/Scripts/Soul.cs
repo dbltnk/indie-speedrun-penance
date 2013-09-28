@@ -127,7 +127,7 @@ public class Soul : MonoBehaviour {
 		}
 
 		// below rock?
-		var belowPos = HexGrid<Rock,int>.CellPositionFromView (transform.position);
+		var belowPos = Grid.instance.FindNearestRockPosition (transform.position);
 		var newBelowRock = Grid.instance.FindRockAt (belowPos.a, belowPos.b);
 		if (newBelowRock != currentBelowRock) {
 			if (newBelowRock != null)
