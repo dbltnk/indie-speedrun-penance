@@ -39,7 +39,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DESPAWN_HEIGHT: -30
-  DROP_EVERY: 1
+  DROP_EVERY_MIN: 1
+  DROP_EVERY_MAX: 5
   SCREEN_PICK_RAY_START: {x: .5, y: .550000012, z: 0}
   MIN_AGE_BEFORE_BREAK: 5
   IN_AIR_TIMEOUT: 1
