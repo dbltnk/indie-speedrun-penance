@@ -210,4 +210,9 @@ public class Grid : MonoBehaviour {
 			return false;
 		}
 	}
+
+	public Rock GetRoot ()
+	{
+		return FindRockAt (rootGridX, rootGridY);
+	}
 }

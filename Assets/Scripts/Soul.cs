@@ -12,6 +12,9 @@ public class Soul : MonoBehaviour {
 	public float movementSpeed;
 	public float rotateSpeed;
 
+	public float minPickupDistance;
+	public float maxPickupDistance;
+
 	public bool isCarryingARock;
 
 	void Awake () {
@@ -30,9 +33,15 @@ public class Soul : MonoBehaviour {
 		float enter = 0f;
 		if (p.Raycast (r, out enter)) {
 			var hit = r.GetPoint (enter);
+			//Debug.Log (Vector3.Distance (hit, transform.position));
 			Gizmos.color = Color.magenta;
 			Gizmos.DrawSphere (hit, 0.2f);
 		}
+	}
+
+	bool IsInPickupDistance(Vector3 p) {
+		float d = Vector3.Distance (transform.position, p);
+		return minPickupDistance <= d && d <= maxPickupDistance;
 	}
 
 	// Update is called once per frame
@@ -53,29 +62,46 @@ public class Soul : MonoBehaviour {
 
 		_controller.Move((movement + gravity) * Time.deltaTime);
 
+
+		// dispenser?
+		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
+		if (isCarryingARock == false && Input.GetMouseButtonDown(0)) {
+			RaycastHit hit;
+			if (RockDispenser.instance._collider.Raycast (r, out hit, float.MaxValue)) {
+				// near enough?
+				if (IsInPickupDistance(hit.point)) {
+					isCarryingARock = true;
+				}
+			}
+		}
+
+
 		// select rock
 		if (RockMarker.instance != null) {
 			Plane p = new Plane (Vector3.up, Vector3.zero);
-			Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
 			float enter = 0f;
 			if (p.Raycast (r, out enter)) {
 				var hit = r.GetPoint (enter);
 				var cellPos = Grid.instance.FindNearestRockPosition (hit);
-				RockMarker.instance.transform.position = HexGrid<Rock,int>.ViewCellPosition (cellPos.a, cellPos.b);
+				var cellWorldPos = HexGrid<Rock,int>.ViewCellPosition (cellPos.a, cellPos.b);
+				RockMarker.instance.transform.position = cellWorldPos;
 
 				// pickup?
 				if (Input.GetMouseButtonDown (0)) {
 					var canBePicked = Grid.instance.CanRockBePicked (cellPos.a, cellPos.b);
 					var hasCell = Grid.instance.grid.HasCellAt (cellPos.a, cellPos.b);
 
-					if (canBePicked && hasCell && !isCarryingARock) {
-						// pickup
-						isCarryingARock = true;
-						Grid.instance.RemoveCellAt (cellPos.a, cellPos.b);
-					} else if(!hasCell && isCarryingARock) {
-						// putdown
-						isCarryingARock = false;
-						Grid.instance.AddCellAt (cellPos.a, cellPos.b);
+					// near enough?
+					if (IsInPickupDistance(cellWorldPos)) {
+						if (canBePicked && hasCell && !isCarryingARock) {
+							// pickup
+							isCarryingARock = true;
+							Grid.instance.RemoveCellAt (cellPos.a, cellPos.b);
+						} else if (!hasCell && isCarryingARock) {
+							// putdown
+							isCarryingARock = false;
+							Grid.instance.AddCellAt (cellPos.a, cellPos.b);
+						}
 					}
 				}
 			}
