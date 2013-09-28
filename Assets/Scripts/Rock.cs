@@ -7,6 +7,8 @@ public class Rock : UKListedBehaviour<Rock> {
 	
 	public GameObject rotator;
 
+	public Vector3 velocity;
+
 	public int gridX {
 		get { return cell != null ? cell.x : 0; }
 	}
@@ -26,14 +28,10 @@ public class Rock : UKListedBehaviour<Rock> {
 
 	public Mode mode = Mode.IDLE;
 
-	public float fallDownIn = 0f;
-	public float fallSpeed = 0f;
+	public Vector3 gravitation;
 
 	// Use this for initialization
 	void Start () {
-		fallDownIn = Random.Range (2f, 10f);
-		fallSpeed = Random.Range (2f, 5f);
-
 		InvokeRepeating ("CheckStillConnected", 0.25f, 0.25f);
 		
 		int randomNumber;
@@ -80,14 +78,9 @@ public class Rock : UKListedBehaviour<Rock> {
 
 	// Update is called once per frame
 	void Update () {
-		if (mode == Mode.IDLE) fallDownIn -= Time.deltaTime;
-
-		//if (fallDownIn < 0f && mode == Mode.IDLE) {
-		//	BreakApart ();
-		//} 
-
 		if (mode == Mode.FALLING) {
-			transform.Translate (Vector3.down * fallSpeed * Time.deltaTime);
+			velocity += gravitation * Time.deltaTime;
+			transform.Translate (velocity * Time.deltaTime);
 		}
 
 		// Debug.Log (instances.Count);

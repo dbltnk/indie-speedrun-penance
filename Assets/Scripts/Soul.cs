@@ -84,7 +84,7 @@ public class Soul : MonoBehaviour {
 		movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;
 
 		if (_controller.isGrounded == false) {
-			velocity += gravity;
+			velocity += gravity * Time.deltaTime;
 		} else {
 			if (jumpIfPossible) {
 				jumpIfPossible = false;

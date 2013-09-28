@@ -67,10 +67,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 100004}
-  gravity: {x: 0, y: -3, z: 0}
+  gravity: {x: 0, y: -6, z: 0}
   movementSpeed: 5
   rotateSpeed: 5
-  jumpSpeed: 8
+  jumpSpeed: 3
   minPickupDistance: 1.5
   maxPickupDistance: 4
   isCarryingARock: 0

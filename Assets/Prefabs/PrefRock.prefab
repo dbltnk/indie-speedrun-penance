@@ -217,11 +217,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotator: {fileID: 100006}
+  velocity: {x: 0, y: 0, z: 0}
   groupNr: 0
   neighbours: []
   mode: 0
-  fallDownIn: 0
-  fallSpeed: 0
+  gravitation: {x: 0, y: -6, z: 0}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
