@@ -10,6 +10,8 @@ public class Constants : MonoBehaviour {
 
 	public bool CHEATS_ENABLED;
 	public float DESPAWN_HEIGHT;
+	public float REWIND_HEIGHT;
+	public float REWIND_SPEED;
 	public float DROP_EVERY_MIN;
 	public float DROP_EVERY_MAX;
 	public Vector3 SCREEN_PICK_RAY_START;

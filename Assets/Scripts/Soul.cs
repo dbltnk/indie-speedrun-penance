@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Soul : MonoBehaviour {
 	public static Soul instance;
@@ -29,6 +30,16 @@ public class Soul : MonoBehaviour {
 
 	public bool jumpIfPossible;
 
+	public Stack<Vector3> moveBackPositions = new Stack<Vector3>();
+	public Vector3 lastPosOnGround;
+
+	public enum Mode {
+		NORMAL = 0,
+		FALLDOWN_AND_DIE = 1,
+	};
+
+	public Mode mode;
+
 	public bool isLongInAir() {
 		return Time.time - lastTimeOnGround > Constants.instance.IN_AIR_TIMEOUT;
 	}
@@ -47,6 +58,7 @@ public class Soul : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating ("PlayStepSoundIfMoving", stepSoundTime, stepSoundTime);
+		InvokeRepeating ("TrackBackPositions", 0.2f, 0.2f);
 	}
 
 	void UpdateMarker () {
@@ -68,6 +80,15 @@ public class Soul : MonoBehaviour {
 			Gizmos.color = Color.magenta;
 			Gizmos.DrawSphere (hit, 0.2f);
 		}
+
+		// trail
+		Gizmos.color = Color.yellow;
+		Vector3 lastPos = transform.position;
+		foreach (var pos in moveBackPositions) {
+			Gizmos.DrawLine (lastPos, pos);
+			lastPos = pos;
+		}
+		Gizmos.DrawLine (lastPos, lastPosOnGround);
 	}
 
 	bool IsInPickupDistance(Vector3 p) {
@@ -80,29 +101,73 @@ public class Soul : MonoBehaviour {
 		return d <= maxPickupDistance;
 	}
 
+	IEnumerator CoMoveTowards(Vector3 p, float speed) {
+		while (Vector3.Distance(p, transform.position) > 0f) {
+			// move towards next point
+			transform.position = Vector3.MoveTowards (transform.position, p, Time.deltaTime * speed);
+			yield return null;
+		}
+	}
+
+	IEnumerator CoRewind ()
+	{
+		mode = Mode.FALLDOWN_AND_DIE;
+
+		// rewind
+		while (moveBackPositions.Count > 0) {
+			// next pos
+			var p = moveBackPositions.Pop ();
+			yield return StartCoroutine (CoMoveTowards (p, Constants.i.REWIND_SPEED));
+		}
+
+		// put on ground
+		yield return StartCoroutine (CoMoveTowards (lastPosOnGround, Constants.i.REWIND_SPEED));
+
+		// still in the air?
+		var belowPos = Grid.instance.FindNearestRockPosition (transform.position);
+		var belowRock = Grid.instance.FindRockAt (belowPos.a, belowPos.b);
+		if (belowRock == null) {
+			// ok back to root
+			var rootPos = Grid.instance.GetRoot ().transform.position;
+			yield return StartCoroutine (CoMoveTowards (rootPos + Vector3.up * _controller.height, Constants.i.REWIND_SPEED));
+		}
+
+		mode = Mode.NORMAL;
+
+		yield return null;
+	}
+
 	// Update is called once per frame
 	void Update () {
+		// look around
+		var mX = Input.GetAxis ("Mouse X");
+		var mY = Input.GetAxis ("Mouse Y");
+
+		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
+		head.transform.Rotate (new Vector3 (-mY, 0f, 0f) * rotateSpeed);
+
+		// rewind?
+		if (mode == Mode.NORMAL && transform.position.y < Constants.i.REWIND_HEIGHT) {
+			StartCoroutine (CoRewind());
+			return;
+		}
+		// stop there if we are in rewinding mode
+		if (mode == Mode.FALLDOWN_AND_DIE)
+			return;
+
 		// jump trigger
 		if (Input.GetKeyDown (KeyCode.Space))
 			jumpIfPossible = true;
 		if (Input.GetKey (KeyCode.Space) == false)
 			jumpIfPossible = false;
 
-
 		bool markerInDist = IsInPickupDistance(RockMarker.instance.transform.position);
 		RockMarker.instance.gameObject.SetActive(markerInDist);
 		
-		var mX = Input.GetAxis ("Mouse X");
-		var mY = Input.GetAxis ("Mouse Y");
-
-		// look around
-		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
-		head.transform.Rotate (new Vector3 (-mY, 0f, 0f) * rotateSpeed);
-			
+		// move wasd
 		var kX = Input.GetAxis ("Vertical");
 		var kY = Input.GetAxis ("Horizontal");
 
-		// move wasd
 		Vector3 movement = transform.TransformDirection (Vector3.forward) * movementSpeed * kX;
 		movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;
 
@@ -225,5 +290,16 @@ public class Soul : MonoBehaviour {
 		if (transform.position.y < Constants.instance.DESPAWN_HEIGHT) {
 			transform.position = Grid.instance.GetRoot ().transform.position + Vector3.up * _controller.height;
 		}
+
+		// reset path if on ground
+		if (_controller.isGrounded)
+			lastPosOnGround = transform.position;
+		if (isLongInAir () == false)
+			moveBackPositions.Clear ();
+	}
+
+	void TrackBackPositions() {
+		if (isLongInAir () && mode == Mode.NORMAL)
+			moveBackPositions.Push (transform.position);
 	}
 }
