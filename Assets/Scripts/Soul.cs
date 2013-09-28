@@ -108,7 +108,7 @@ public class Soul : MonoBehaviour {
 				// jump
 				jumpIfPossible = false;
 				velocity = Vector3.up * jumpSpeed;
-				AudioManager.instance.playSound ("jump");
+				AudioManager.instance.playSound ("jump_up");
 			} else {
 				// on ground
 				velocity = Vector3.zero;
@@ -187,7 +187,7 @@ public class Soul : MonoBehaviour {
 		isMoving = movement.sqrMagnitude > 0f;
 		if (_controller.isGrounded) {
 			if (isLongInAir ())
-				AudioManager.instance.playSound ("ground");
+				AudioManager.instance.playSound ("jump_down");
 			lastTimeOnGround = Time.time;
 		}
 	}

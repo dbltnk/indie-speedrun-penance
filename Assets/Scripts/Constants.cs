@@ -6,10 +6,12 @@ public class Constants : MonoBehaviour {
 	public static Constants instance;
 	
 	public float DESPAWN_HEIGHT;
-	public float DROP_EVERY;
+	public float DROP_EVERY_MIN;
+	public float DROP_EVERY_MAX;
 	public Vector3 SCREEN_PICK_RAY_START;
 	public float MIN_AGE_BEFORE_BREAK;
 	public float IN_AIR_TIMEOUT;
+	public float CRACLE_TIME;
 	
 	void Awake () {
 		instance = this;

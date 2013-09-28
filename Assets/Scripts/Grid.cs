@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +46,20 @@ public class Grid : MonoBehaviour {
 
 		RecalculateGroups ();
 
-		InvokeRepeating("BreakApartAtTheEdges", Constants.instance.DROP_EVERY, Constants.instance.DROP_EVERY);
+		StartCoroutine (CoBreakApartAtTheEdges ());
 	}
-	
+
+	IEnumerator CoBreakApartAtTheEdges()
+	{
+		while (true) {
+			yield return new WaitForSeconds (Random.Range (
+				Constants.instance.DROP_EVERY_MIN,
+				Constants.instance.DROP_EVERY_MAX));
+
+			BreakApartAtTheEdges ();
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (groupsDirty) RecalculateGroups();	
@@ -168,7 +178,7 @@ public class Grid : MonoBehaviour {
 		
 		if (candidates.Length > 0) {
 		
-			Array.Sort(candidates, (a, b) => {
+			System.Array.Sort(candidates, (a, b) => {
 				float aDist = Vector3.Distance(goalObject, a.transform.position);
 				float bDist = Vector3.Distance(goalObject, b.transform.position);
 				

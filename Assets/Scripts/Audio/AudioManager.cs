@@ -161,10 +161,10 @@ public class AudioManager : MonoBehaviour {
 			position = Camera.main.transform.position;
 		}
 		
-		playSoundAt(position, namePattern);
+		playSoundAt(position, namePattern, 0f, 10000f);
 	}
 	
-	public void playSoundAt(Vector3 position, string namePattern)
+	public void playSoundAt(Vector3 position, string namePattern, float minDist, float maxDist)
 	{
 		{
 			// purge old stuff
@@ -221,6 +221,9 @@ public class AudioManager : MonoBehaviour {
 				
 				// deposit after time
 				o.GetComponent<ObjectRecyclerDepositMe>().Invoke("Deposit", clipInfo.clip.length);
+
+				o.audio.minDistance = minDist;
+				o.audio.maxDistance = maxDist;
 			}
 			catch
 			{

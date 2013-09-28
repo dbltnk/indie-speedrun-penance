@@ -42,11 +42,11 @@ MonoBehaviour:
   useSoundEFX: 1
   useMusic: 1
   soundEfx:
-  - name: jump0
+  - name: jump_up
     clip: {fileID: 8300000, guid: 08b1ff2ab0d5b44d19861f5fc864f185, type: 3}
     volume: 1
-  - name: ground
-    clip: {fileID: 8300000, guid: 08b1ff2ab0d5b44d19861f5fc864f185, type: 3}
+  - name: jump_down
+    clip: {fileID: 8300000, guid: 052ca44f21b23420497277d9a3252a56, type: 3}
     volume: 1
   - name: step0
     clip: {fileID: 8300000, guid: 54445ff09f3e8469ca713bef82e81d79, type: 3}
@@ -60,10 +60,25 @@ MonoBehaviour:
   - name: pick_dispenser
     clip: {fileID: 8300000, guid: 19ebf52177d24430585e41bac7d6765a, type: 3}
     volume: .5
+  - name: pick_ground
+    clip: {fileID: 8300000, guid: 7c7f0df58a95e428fbb79a1865fa7e64, type: 3}
+    volume: .5
+  - name: place_ground
+    clip: {fileID: 8300000, guid: a3844ff5e8e1f4f33a5b6376f227aeab, type: 3}
+    volume: .5
+  - name: cracle0
+    clip: {fileID: 8300000, guid: fcc36fdc4f29b47928a8ae0eb021ce8b, type: 3}
+    volume: .5
+  - name: falldown
+    clip: {fileID: 8300000, guid: 9b69f83b1647d479e9c04331ab7cb68a, type: 3}
+    volume: 1
+  - name: cracle1
+    clip: {fileID: 8300000, guid: c7a9ee811c06f4fd5bd3078c3c3208df, type: 3}
+    volume: .5
   musics:
   - name: ambience0
     clip: {fileID: 8300000, guid: 839da3101d44bdd409ce1875c6d1e7bd, type: 3}
-    volume: .100000001
+    volume: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -22,6 +22,7 @@ public class Rock : UKListedBehaviour<Rock> {
 	public enum Mode {
 		IDLE = 0,
 		FALLING = 1,
+		CRACLE = 2,
 	};
 
 	public List<Rock> neighbours = new List<Rock>();
@@ -71,11 +72,28 @@ public class Rock : UKListedBehaviour<Rock> {
 		neighbours.Clear();
 	}
 
-	public void BreakApart () {
-		if (Grid.instance.IsRoot(this) == false && mode == Mode.IDLE) {
+	void FallDown () {
+		if (mode == Mode.FALLING)
+			return;
+
+		AudioManager.instance.playSoundAt (transform.position, "falldown", 10f, 20f);
+
+		if (Grid.instance.IsRoot(this) == false) {
 			mode = Mode.FALLING;
 			Grid.instance.RemoveRockFromGrid (this);
 		}
+	}
+
+	public void BreakApart () {
+		if (mode != Mode.IDLE)
+			return;
+
+		mode = Mode.CRACLE;
+		Invoke ("FallDown", Constants.instance.CRACLE_TIME);
+		AudioManager.instance.playSoundAt (transform.position, "cracle", 5f, 10f);
+		var randRot = new Vector3 (Random.Range (-15f, 15f), Random.Range (-15f, 15f), Random.Range (-10f, 10f));
+		Go.to (transform, Constants.instance.CRACLE_TIME, new TweenConfig ()
+		       .rotation (randRot, true));
 	}
 
 	void CheckStillConnected () {
@@ -91,14 +109,11 @@ public class Rock : UKListedBehaviour<Rock> {
 		if (mode == Mode.FALLING) {
 			velocity += gravitation * Time.deltaTime;
 			transform.Translate (velocity * Time.deltaTime);
+
+			if (transform.position.y < Constants.instance.DESPAWN_HEIGHT) {
+				GameObject.Destroy (gameObject);
+			}
 		}
-
-		// Debug.Log (instances.Count);
-
-		if (transform.position.y < Constants.instance.DESPAWN_HEIGHT) {
-			GameObject.Destroy (gameObject);
-		}
-
 	}
 
 	void OnDrawGizmosSelected () {
