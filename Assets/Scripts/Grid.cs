@@ -31,7 +31,7 @@ public class Grid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		grid = new HexGrid (15, 15);
+		grid = new HexGrid (5, 5);
 		rocks = new List<GameObject> ();
 
 		foreach (var cell in grid.EnumCells()) {
@@ -39,9 +39,12 @@ public class Grid : MonoBehaviour {
 		}
 		
 		foreach (var rock in Rock.Instances) {
+			rock.Connect ();
 			//Debug.Log(rock);
 			//rock.BreakApart();
 		}
+
+		//RecalculateGroups ();
 	}
 	
 	// Update is called once per frame
@@ -50,9 +53,8 @@ public class Grid : MonoBehaviour {
 	}
 
 	public Rock FindRockAt(int x, int y) {
-		for (int i = 0; i < Rock._instances.Count; ++i) {
-			var rock = Rock._instances [i].GetComponent<Rock> ();
-			if (rock.gridX == x && rock.gridY == y)
+		foreach (var rock in Rock.Instances) {
+			if (rock != null && rock.gridX == x && rock.gridY == y)
 				return rock;
 		}
 
@@ -61,12 +63,16 @@ public class Grid : MonoBehaviour {
 
 	public void RemoveCellAt (int x, int y) {
 		grid.RemoveCell (x, y);
-		GameObject.Destroy (FindRockAt (x, y).gameObject);
+		var rock = FindRockAt (x, y);
+		GameObject.Destroy (rock.gameObject);
+		//RecalculateGroups ();
+		rock.Disconnect ();
 	}
 
 	public void AddCellAt (int x, int y) {
 		grid.CreateCell (x, y);
-		CreateRockObject (x, y);
+		var rock = CreateRockObject (x, y);
+		rock.Connect ();
 	}
 
 	public UKTuple<int,int> FindNearestRockPosition(Vector3 positionOnGridPlane) {
@@ -88,5 +94,72 @@ public class Grid : MonoBehaviour {
 		}
 
 		return minPos;
+	}
+	
+	public void RecalculateGroups() 
+	{
+		int nextGroundNr = 1;
+
+		// reset all
+		foreach (var rock in Rock.Instances) {
+			rock.groupNr = 0;
+		}
+
+		// start
+		var startRock = FindRockAt (0, 0);
+		if (startRock == null)
+			return;
+
+		List<Rock> toCheck = new List<Rock> ();
+		toCheck.AddRange (Rock.Instances);
+
+		while (true) {
+			toCheck.Remove (startRock);
+			startRock.groupNr = nextGroundNr;
+			++nextGroundNr;
+
+			ExpandAndRemove (startRock, toCheck);
+
+			if (toCheck.Count == 0)
+				return;
+
+			startRock = toCheck [0];
+		}
+	}
+
+	void ExpandAndRemove (Rock startRock, List<Rock> toCheck)
+	{
+		int nr = startRock.groupNr;
+
+		List<Rock> border = new List<Rock> ();
+
+		border.Add (startRock);
+
+		int safe = 10000;
+
+		while (border.Count > 0) {
+			--safe;
+			if (safe < 0) break;
+
+			// pick one and assign nr
+			var cellRock = border [0];
+			border.RemoveAt (0);
+			toCheck.Remove (cellRock);
+
+			// TODO XXX there is a bug!!!!
+
+			// check neighbours
+			foreach (var nCell in grid.EnumCellNeighbours(cellRock.gridX, cellRock.gridY)) {
+				var rock = FindRockAt (nCell.x, nCell.y);
+
+				// hole or already visited?
+				if (rock == null || rock.groupNr > 0)
+					continue;
+
+				// extend border
+				rock.groupNr = nr;
+				border.Add (rock);
+			}
+		}
 	}
 }

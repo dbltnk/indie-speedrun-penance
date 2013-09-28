@@ -30,7 +30,7 @@ public class HexGrid {
 		int x = Mathf.FloorToInt ((p.x + delta) / CELL_DIAMETER_SHORT);
 		return new UKTuple<int, int> (x, y);
 	}
-	
+		
 	// cell x,y, even if there are no cells
 	public static IEnumerable< UKTuple<int,int> > EnumNeighbourPositions(int x, int y)
 	{
@@ -39,17 +39,17 @@ public class HexGrid {
 		yield return new UKTuple<int, int>(x-1, y+0);
 		yield return new UKTuple<int, int>(x+0, y+1);
 		yield return new UKTuple<int, int>(x+0, y-1);
-		
+
 		// additional fields
-		if (x % 2 == 0)
+		if (y % 2 == 0)
 		{
-			yield return new UKTuple<int, int>(x+1, y-1);
+			yield return new UKTuple<int, int>(x-1, y+1);
 			yield return new UKTuple<int, int>(x-1, y-1);
 		}
 		else
 		{
 			yield return new UKTuple<int, int>(x+1, y+1);
-			yield return new UKTuple<int, int>(x-1, y+1);
+			yield return new UKTuple<int, int>(x+1, y-1);
 		}
 	}
 

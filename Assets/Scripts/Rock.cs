@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Rock : UKListedBehaviour<Rock> {
 	public int gridX;
 	public int gridY;
+	public int groupNr;
 
 	public enum Mode {
 		IDLE = 0,
 		FALLING = 1,
 	};
+
+	public List<Rock> neighbours = new List<Rock>();
 
 	public Mode mode = Mode.IDLE;
 
@@ -19,10 +23,36 @@ public class Rock : UKListedBehaviour<Rock> {
 	void Start () {
 		fallDownIn = Random.Range (2f, 10f);
 		fallSpeed = Random.Range (2f, 5f);
+
+		InvokeRepeating ("CheckStillConnected", 0.25f, 0.25f);
+	}
+
+	public void Connect() {
+		neighbours.Clear ();
+
+		foreach (var nPos in HexGrid.EnumNeighbourPositions (gridX, gridY)) {
+			var nRock = Grid.instance.FindRockAt (nPos.a, nPos.b);
+			if (nRock != null)
+				neighbours.Add (nRock);
+		}
+	}
+
+	public void Disconnect() {
+		foreach (var nRock in neighbours) {
+			nRock.neighbours.Remove (this);
+		}
 	}
 
 	public void BreakApart () {
 		mode = Mode.FALLING;
+	}
+
+	void CheckStillConnected () {
+		var centerRock = Grid.instance.FindRockAt(7,7);
+		
+		if (mode == Mode.IDLE && groupNr > 0 && centerRock != null && groupNr != centerRock.groupNr) {
+			BreakApart ();
+		}
 	}
 
 	// Update is called once per frame
@@ -48,5 +78,17 @@ public class Rock : UKListedBehaviour<Rock> {
 	void OnDrawGizmosSelected () {
 		Gizmos.color = Color.red;
 		Gizmos.DrawSphere (HexGrid.ViewCellPosition (gridX, gridY), 0.1f);
+		
+		Gizmos.color = Color.green;
+		foreach (var nRock in neighbours) {
+			if (nRock == null)
+				continue;
+			Gizmos.DrawLine (transform.position, nRock.transform.position);
+		}
+	}
+
+	public override void OnDestroy() {
+		base.OnDestroy();
+		Disconnect ();
 	}
 }

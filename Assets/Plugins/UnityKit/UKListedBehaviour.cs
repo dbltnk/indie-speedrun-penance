@@ -9,7 +9,7 @@ public class UKListedBehaviour<T> : MonoBehaviour
 
 	public static IEnumerable<T> Instances {
 		get {
-			foreach(var it in _instances) yield return it.GetComponent<T>();
+			foreach(var it in _instances) if (it != null) yield return it.GetComponent<T>();
 		}
 	}
 
