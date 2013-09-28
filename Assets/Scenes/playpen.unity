@@ -102,7 +102,7 @@ Light:
   m_Color: {r: .786764741, g: .911764741, b: 1, a: 1}
   m_Intensity: .5
   m_Range: 1000
-  m_SpotAngle: 67
+  m_SpotAngle: 60
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -131,8 +131,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 24084722}
-  m_LocalRotation: {x: .838670552, y: -1.28525244e-08, z: -1.28525253e-08, w: .544639051}
-  m_LocalPosition: {x: 15, y: 35, z: 50}
+  m_LocalRotation: {x: .923879564, y: -8.81720368e-08, z: -8.81720439e-08, w: .382683486}
+  m_LocalPosition: {x: 15, y: 17.7523956, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1863,18 +1863,18 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1379068708}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dad87ba4f1e04d6eb7f287e1f2e08fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resolution: 1
   screenBlendMode: 0
-  sunTransform: {fileID: 0}
+  sunTransform: {fileID: 24084724}
   radialBlurIterations: 2
-  sunColor: {r: 1, g: 1, b: 1, a: 1}
+  sunColor: {r: .719074368, g: .806553543, b: .977941155, a: 1}
   sunShaftBlurRadius: 2.5
-  sunShaftIntensity: 1.14999998
+  sunShaftIntensity: .600000024
   useSkyBoxAlpha: .75
   maxRadius: .75
   useDepthTexture: 1
@@ -3130,7 +3130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DESPAWNHEIGHT: -30
-  DROPEVERY: 10
+  DROPEVERY: 3
 --- !u!1 &1668574286
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,7 +3221,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
       propertyPath: DROPEVERY
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
