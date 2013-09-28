@@ -13,16 +13,31 @@ public class Soul : MonoBehaviour {
 	public float rotateSpeed;
 	public float jumpSpeed;
 
+	public float stepSoundTime;
+
 	public float minPickupDistance;
 	public float maxPickupDistance;
 
 	public bool isCarryingARock;
+
+	public bool isMoving;
+	public float lastTimeOnGround;
 
 	public Rock currentBelowRock;
 
 	public Vector3 velocity;
 
 	public bool jumpIfPossible;
+
+	public bool isLongInAir() {
+		return Time.time - lastTimeOnGround > Constants.instance.IN_AIR_TIMEOUT;
+	}
+
+	void PlayStepSoundIfMoving() {
+		if (isMoving && isLongInAir() == false) {
+			AudioManager.instance.playSound ("step");
+		}
+	}
 
 	void Awake () {
 		instance = this;
@@ -31,7 +46,7 @@ public class Soul : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		InvokeRepeating ("PlayStepSoundIfMoving", stepSoundTime, stepSoundTime);
 	}
 
 	void UpdateMarker () {
@@ -90,9 +105,12 @@ public class Soul : MonoBehaviour {
 			velocity += gravity * Time.deltaTime;
 		} else {
 			if (jumpIfPossible) {
+				// jump
 				jumpIfPossible = false;
 				velocity = Vector3.up * jumpSpeed;
+				AudioManager.instance.playSound ("jump");
 			} else {
+				// on ground
 				velocity = Vector3.zero;
 			}
 		}
@@ -160,6 +178,14 @@ public class Soul : MonoBehaviour {
 			if (currentBelowRock != null)
 				currentBelowRock.SoulLeavesRock ();
 			currentBelowRock = newBelowRock;
+		}
+
+		// moving?
+		isMoving = movement.sqrMagnitude > 0f;
+		if (_controller.isGrounded) {
+			if (isLongInAir ())
+				AudioManager.instance.playSound ("ground");
+			lastTimeOnGround = Time.time;
 		}
 	}
 }

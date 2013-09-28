@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: CONSTANTS
+  m_Name: PrefConstants
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,6 +41,7 @@ MonoBehaviour:
   DESPAWN_HEIGHT: -30
   DROP_EVERY: 1
   SCREEN_PICK_RAY_START: {x: .5, y: .550000012, z: 0}
+  MIN_AGE_BEFORE_BREAK: 5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

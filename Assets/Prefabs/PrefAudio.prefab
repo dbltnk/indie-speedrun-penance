@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
+  m_Layer: 0
+  m_Name: PrefAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c0449741044436592ee3131bc4b187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSoundEFX: 1
+  useMusic: 1
+  soundEfx:
+  - name: jump0
+    clip: {fileID: 8300000, guid: 08b1ff2ab0d5b44d19861f5fc864f185, type: 3}
+    volume: 1
+  - name: jump1
+    clip: {fileID: 8300000, guid: 996f72b23914f4c359d0fcb52421e543, type: 3}
+    volume: 1
+  - name: step0
+    clip: {fileID: 8300000, guid: 54445ff09f3e8469ca713bef82e81d79, type: 3}
+    volume: .5
+  - name: step1
+    clip: {fileID: 8300000, guid: 05487fe0f9a4b4734bebbb48268ab200, type: 3}
+    volume: .5
+  - name: step2
+    clip: {fileID: 8300000, guid: df47595251b84469aaf3b45bacca505a, type: 3}
+    volume: .5
+  musics:
+  - name: ambience0
+    clip: {fileID: 8300000, guid: 839da3101d44bdd409ce1875c6d1e7bd, type: 3}
+    volume: .100000001
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7db8150157743eea6ecd91dd762c3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1

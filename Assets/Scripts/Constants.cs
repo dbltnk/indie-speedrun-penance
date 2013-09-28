@@ -9,6 +9,7 @@ public class Constants : MonoBehaviour {
 	public float DROP_EVERY;
 	public Vector3 SCREEN_PICK_RAY_START;
 	public float MIN_AGE_BEFORE_BREAK;
+	public float IN_AIR_TIMEOUT;
 	
 	void Awake () {
 		instance = this;

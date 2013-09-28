@@ -71,9 +71,11 @@ MonoBehaviour:
   movementSpeed: 5
   rotateSpeed: 5
   jumpSpeed: 3
+  stepSoundTime: .200000003
   minPickupDistance: 1.5
   maxPickupDistance: 4
   isCarryingARock: 0
+  isMovingOnGround: 0
   currentBelowRock: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   jumpIfPossible: 0
