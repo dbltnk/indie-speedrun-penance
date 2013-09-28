@@ -144,6 +144,28 @@ public class Soul : MonoBehaviour {
 				var cellWorldPos = HexGrid<Rock,int>.ViewCellPosition (cellPos.a, cellPos.b);
 				RockMarker.instance.transform.position = cellWorldPos;
 
+				// cheats
+				if (Constants.instance.CHEATS_ENABLED) {
+					if (Input.GetKey (KeyCode.Q)) {
+						var cell = Grid.instance.grid.GetCellAt (cellPos.a, cellPos.b);
+						if (cell == null) {
+							UpdateMarker ();
+							var rock = Grid.instance.CreateRockObject (cellPos.a, cellPos.b);
+							Grid.instance.AddRockToGrid (rock, cellPos.a, cellPos.b);
+							AudioManager.instance.playSound ("place_ground");
+						}
+					}
+					if (Input.GetKey(KeyCode.E)) {
+						var cell = Grid.instance.grid.GetCellAt (cellPos.a, cellPos.b);
+						if (cell != null) {
+							UpdateMarker ();
+							var rock = Grid.instance.FindRockAt (cellPos.a, cellPos.b);
+							Grid.instance.RemoveRockFromGrid (rock);
+							GameObject.Destroy (rock.gameObject);
+						}
+					}
+				}
+
 				// pickup?
 				if (Input.GetMouseButtonDown (0)) {
 					var canBePicked = Grid.instance.CanRockBePicked (cellPos.a, cellPos.b);
@@ -189,6 +211,11 @@ public class Soul : MonoBehaviour {
 			if (isLongInAir ())
 				AudioManager.instance.playSound ("jump_down");
 			lastTimeOnGround = Time.time;
+		}
+
+		// dead?
+		if (transform.position.y < Constants.instance.DESPAWN_HEIGHT) {
+			transform.position = Grid.instance.GetRoot ().transform.position + Vector3.up * _controller.height;
 		}
 	}
 }

@@ -4,7 +4,8 @@ using System.Collections;
 public class Constants : MonoBehaviour {
 
 	public static Constants instance;
-	
+
+	public bool CHEATS_ENABLED;
 	public float DESPAWN_HEIGHT;
 	public float DROP_EVERY_MIN;
 	public float DROP_EVERY_MAX;

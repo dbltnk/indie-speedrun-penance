@@ -268,8 +268,10 @@ public class HexGrid<C,E> {
 	
 	public HexCell<C> GetCellAt(int x, int y)
 	{
-		if (HasCellAt(x,y))return cells[CellKey(x,y)];
-		else throw new Exception(string.Format("not cell at x:{0} y:{1}", x,y));
+		if (HasCellAt (x, y))
+			return cells [CellKey (x, y)];
+		else
+			return null;
 	}
 	
 	public IEnumerable<HexCell<C>> EnumCellNeighbours(int x, int y)
