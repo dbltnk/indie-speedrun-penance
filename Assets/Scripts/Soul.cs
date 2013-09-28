@@ -61,12 +61,14 @@ public class Soul : MonoBehaviour {
 			if (p.Raycast (r, out enter)) {
 				var hit = r.GetPoint (enter);
 				var cellPos = Grid.instance.FindNearestRockPosition (hit);
-				RockMarker.instance.transform.position = HexGrid.ViewCellPosition (cellPos.a, cellPos.b);
+				RockMarker.instance.transform.position = HexGrid<Rock,int>.ViewCellPosition (cellPos.a, cellPos.b);
 
 				// pickup?
 				if (Input.GetMouseButtonDown (0)) {
+					var canBePicked = Grid.instance.CanRockBePicked (cellPos.a, cellPos.b);
 					var hasCell = Grid.instance.grid.HasCellAt (cellPos.a, cellPos.b);
-					if (hasCell && !isCarryingARock) {
+
+					if (canBePicked && hasCell && !isCarryingARock) {
 						// pickup
 						isCarryingARock = true;
 						Grid.instance.RemoveCellAt (cellPos.a, cellPos.b);

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class HexGrid {
+public class HexGrid<C,E> {
 	private const float CELL_SIDE = 1.155f;
 	private const float CELL_DIAMETER_LONG = 2f * CELL_SIDE;
 	private const float CELL_DIAMETER_SHORT = CELL_SIDE * 1.73205080756888f;
@@ -56,12 +56,14 @@ public class HexGrid {
 	// ----------------------------------------------
 	#region edge
 	
-	public class HexEdge {
+	public class HexEdge<E> {
 		public int cellAX;
 		public int cellAY;
 		
 		public int cellBX;
 		public int cellBY;
+
+		public E param;
 		
 		public HexEdge(int cellAX, int cellAY, int cellBX, int cellBY)
 		{
@@ -102,9 +104,11 @@ public class HexGrid {
 	// ----------------------------------------------
 	#region cell
 	
-	public class HexCell {
+	public class HexCell<C> {
 		public int x;
 		public int y;
+
+		public C param;
 
 		public HexCell(int x, int y)
 		{
@@ -132,17 +136,17 @@ public class HexGrid {
 	private int width;
 	private int height;
 	
-	private Dictionary<string, HexCell> cells;
+	private Dictionary<string, HexCell<C>> cells;
 
-	private List<HexEdge> edges;
+	private List<HexEdge<E>> edges;
 	
 	public HexGrid(int width, int height)
 	{
 		this.width = width;
 		this.height = height;
 			
-		this.cells = new Dictionary<string, HexCell>();
-		this.edges = new List<HexEdge>();
+		this.cells = new Dictionary<string, HexCell<C>>();
+		this.edges = new List<HexEdge<E>>();
 
 		for (int x = 0; x < width; ++x)
 		{
@@ -182,11 +186,11 @@ public class HexGrid {
 	{
 		string key = CellKey(x,y);
 		
-		HexCell cell = new HexCell(x,y);
+		HexCell<C> cell = new HexCell<C>(x,y);
 		cells[key] = cell;
 	}
 	
-	public IEnumerable<HexCell> EnumCells()
+	public IEnumerable<HexCell<C>> EnumCells()
 	{
 		foreach(var cell in cells.Values)
 		{
@@ -194,7 +198,7 @@ public class HexGrid {
 		}
 	}
 	
-	public IEnumerable<HexEdge> EnumEdges()
+	public IEnumerable<HexEdge<E>> EnumEdges()
 	{
 		foreach(var edge in edges)
 		{
@@ -213,7 +217,7 @@ public class HexGrid {
 				
 				if (HasCellAt(nx, ny) && IsEdgeBetween(cell.x, cell.y, nx, ny) == false)
 				{
-					edges.Add(new HexEdge(cell.x, cell.y, nx, ny));
+					edges.Add(new HexEdge<E>(cell.x, cell.y, nx, ny));
 				}
 			}
 		}
@@ -221,7 +225,7 @@ public class HexGrid {
 	
 	private void RemoveUnconnectedEdges()
 	{
-		List<HexEdge> removeEdge = new List<HexEdge>();
+		List<HexEdge<E>> removeEdge = new List<HexEdge<E>>();
 		
 		foreach(var edge in edges)
 		{
@@ -239,7 +243,7 @@ public class HexGrid {
 		}
 	}
 	
-	public HexEdge GetEdgeBetween(int cellAX, int cellAY, int cellBX, int cellBY)
+	public HexEdge<E> GetEdgeBetween(int cellAX, int cellAY, int cellBX, int cellBY)
 	{
 		foreach(var edge in edges)
 		{
@@ -262,13 +266,13 @@ public class HexGrid {
 		return false;
 	}
 	
-	public HexCell GetCellAt(int x, int y)
+	public HexCell<C> GetCellAt(int x, int y)
 	{
 		if (HasCellAt(x,y))return cells[CellKey(x,y)];
 		else throw new Exception(string.Format("not cell at x:{0} y:{1}", x,y));
 	}
 	
-	public IEnumerable<HexCell> EnumCellNeighbours(int x, int y)
+	public IEnumerable<HexCell<C>> EnumCellNeighbours(int x, int y)
 	{
 		foreach(var p in EnumNeighbourPositions(x,y))
 		{

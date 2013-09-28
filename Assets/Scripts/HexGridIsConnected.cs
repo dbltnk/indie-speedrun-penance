@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public static class HexGridIsConnected {
-	public static bool IsPathBetween(HexGrid grid, int cellAX, int cellAY, int cellBX, int cellBY)
+public static class HexGridIsConnected<C,E> {
+	public static bool IsPathBetween(HexGrid<C,E> grid, int cellAX, int cellAY, int cellBX, int cellBY)
 	{
 		if (grid.HasCellAt (cellAX, cellAY) == false || grid.HasCellAt (cellBX, cellBY) == false)
 			return false;
@@ -28,7 +28,7 @@ public static class HexGridIsConnected {
 			alreadyVisited.Add(new UKTuple<int, int>(cell.a, cell.b));
 
 			// check neighbours
-			foreach (var nPos in HexGrid.EnumNeighbourPositions(cell.a, cell.b)) {
+			foreach (var nPos in HexGrid<C,E>.EnumNeighbourPositions(cell.a, cell.b)) {
 				// hole?
 				if (grid.HasCellAt (nPos.a, nPos.b) == false)
 					continue;
