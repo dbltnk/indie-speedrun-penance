@@ -62,7 +62,7 @@ public class Soul : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating ("PlayStepSoundIfMoving", stepSoundTime, stepSoundTime);
-		InvokeRepeating ("TrackBackPositions", 0.2f, 0.2f);
+		InvokeRepeating ("TrackBackPositions", 0.1f, 0.1f);
 	}
 
 	void UpdateMarker () {
@@ -130,9 +130,7 @@ public class Soul : MonoBehaviour {
 		yield return StartCoroutine (CoMoveTowards (lastPosOnGround + upDisplacement, Constants.i.REWIND_SPEED));
 
 		// still in the air?
-		var belowPos = Grid.instance.FindNearestRockPosition (transform.position);
-		var belowRock = Grid.instance.FindRockAt (belowPos.a, belowPos.b);
-		if (belowRock == null) {
+		if (Physics.Raycast (new Ray (transform.position, Vector3.down), _controller.height) == false) {
 			// ok back to root
 			var rootPos = Grid.instance.GetRoot ().transform.position;
 			yield return StartCoroutine (CoMoveTowards (rootPos + Vector3.up * _controller.height, Constants.i.REWIND_SPEED));
