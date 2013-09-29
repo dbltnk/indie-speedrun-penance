@@ -58,7 +58,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: df47595251b84469aaf3b45bacca505a, type: 3}
     volume: .75
   - name: pick_dispenser
-    clip: {fileID: 8300000, guid: 19ebf52177d24430585e41bac7d6765a, type: 3}
+    clip: {fileID: 8300000, guid: db25273eb3aef4f66a480da491bd946a, type: 3}
     volume: .5
   - name: pick_ground
     clip: {fileID: 8300000, guid: 7c7f0df58a95e428fbb79a1865fa7e64, type: 3}
