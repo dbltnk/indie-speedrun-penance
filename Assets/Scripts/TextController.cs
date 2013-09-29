@@ -63,10 +63,12 @@ Alexander Zacherl
 			yield return new WaitForSeconds (1f);
 			
 			yield return StartCoroutine(CoShowPage(@"
-This game was developed
-as part of Indie Speed Run
-2013 (www.indiespeedrun.com).
-", 3f));
+This game was
+developed as 
+part of Indie 
+Speed Run 2013 .
+indiespeedrun.com
+", 6f));
 
 			yield return new WaitForSeconds (3600f);
 		}
