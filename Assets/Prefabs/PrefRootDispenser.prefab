@@ -160,9 +160,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d20cc39e3be429499944002eb1041c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldRockLimit: 500
+  worldRockLimit: 200
+  disapearTreshold: .100000001
   gridX: 0
   gridY: 0
+  _material: {fileID: 0}
   _collider: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:

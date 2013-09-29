@@ -1,4 +1,4 @@
-﻿Shader "Custom/God" {
+﻿Shader "Custom/Disapear" {
 	Properties {
       _MainTex ("Texture", 2D) = "white" {}
       _Noise ("Noise", 2D) = "white" {}
@@ -7,7 +7,7 @@
       _FadeColor ("Fade Color", Color) = (1,0,0,0)
     }
     SubShader {
-      Tags { "RenderType" = "Transparent" }
+      Tags { "RenderType" = "Opaque" }
       Cull Off
       CGPROGRAM
 	  
