@@ -51,6 +51,9 @@ public class Grid : MonoBehaviour {
 			AddRockToGrid(rock, cell.x, cell.y);
 		}
 
+		// dont show root rock because of dispenser
+		GetRoot ().gameObject.VisitComponentsDeep<Renderer> (it => it.enabled = false);
+
 		RecalculateGroupsAndMaxDistance ();
 
 		StartCoroutine (CoBreakApartAtTheEdges ());
