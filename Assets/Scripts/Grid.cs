@@ -121,6 +121,7 @@ public class Grid : MonoBehaviour {
 		var rootPos = GetRoot ().transform.position;
 
 		currenMaxRootDistance = grid.EnumCells()
+			.Where(it => it.param != null)
 			.Select(it => it.param.transform.position)
 			.Select(it => Vector3.Distance(rootPos, it))
 			.Max();

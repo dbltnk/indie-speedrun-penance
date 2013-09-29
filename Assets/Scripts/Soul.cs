@@ -117,15 +117,17 @@ public class Soul : MonoBehaviour {
 	{
 		mode = Mode.FALLDOWN_AND_DIE;
 
+		var upDisplacement = Vector3.up * 0.25f;
+
 		// rewind
 		while (moveBackPositions.Count > 0) {
 			// next pos
 			var p = moveBackPositions.Pop ();
-			yield return StartCoroutine (CoMoveTowards (p, Constants.i.REWIND_SPEED));
+			yield return StartCoroutine (CoMoveTowards (p + upDisplacement, Constants.i.REWIND_SPEED));
 		}
 
 		// put on ground
-		yield return StartCoroutine (CoMoveTowards (lastPosOnGround, Constants.i.REWIND_SPEED));
+		yield return StartCoroutine (CoMoveTowards (lastPosOnGround + upDisplacement, Constants.i.REWIND_SPEED));
 
 		// still in the air?
 		var belowPos = Grid.instance.FindNearestRockPosition (transform.position);
@@ -303,14 +305,14 @@ public class Soul : MonoBehaviour {
 		}
 
 		// reset path if on ground
-		if (_controller.isGrounded)
+		if (_controller.isGrounded) {
 			lastPosOnGround = transform.position;
-		if (isLongInAir () == false)
 			moveBackPositions.Clear ();
+		}
 	}
 
 	void TrackBackPositions() {
-		if (isLongInAir () && mode == Mode.NORMAL)
+		if (_controller.isGrounded == false && mode == Mode.NORMAL)
 			moveBackPositions.Push (transform.position);
 	}
 }
