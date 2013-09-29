@@ -119,6 +119,8 @@ public class Soul : MonoBehaviour {
 
 		var upDisplacement = Vector3.up * 0.25f;
 
+		TimeWarp.instance.PlaySound ();
+
 		// rewind
 		while (moveBackPositions.Count > 0) {
 			// next pos
