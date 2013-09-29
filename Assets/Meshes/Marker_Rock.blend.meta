@@ -4,10 +4,24 @@ ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
     100000: //RootNode
+    100002: BezierCurve
+    100004: Cube
+    100006: DEBUG_Rock
     400000: //RootNode
+    400002: BezierCurve
+    400004: Cube
+    400006: DEBUG_Rock
     2300000: //RootNode
+    2300002: BezierCurve
+    2300004: Cube
+    2300006: DEBUG_Rock
     3300000: //RootNode
+    3300002: BezierCurve
+    3300004: Cube
+    3300006: DEBUG_Rock
     4300000: DEBUG_Rock
+    4300002: Cube
+    4300004: BezierCurve
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -60,5 +74,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   additionalBone: 1
-  animationType: 2
+  animationType: 0
   userData: 
