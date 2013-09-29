@@ -77,8 +77,8 @@ MonoBehaviour:
     volume: .5
   musics:
   - name: ambience0
-    clip: {fileID: 8300000, guid: 839da3101d44bdd409ce1875c6d1e7bd, type: 3}
-    volume: 0
+    clip: {fileID: 8300000, guid: 0acea513f4ae8f8438bf3a2fae9212e3, type: 3}
+    volume: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
