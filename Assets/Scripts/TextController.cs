@@ -36,21 +36,31 @@ public class TextController : MonoBehaviour {
 		yield return new WaitForSeconds (textAnimation.clip.length);
 	}
 
-	IEnumerator CoShowText () {
-		while (true) {
+	IEnumerator CoShowLinePerPage(string text, char seperator, float timeDisplayed, float timeHidden) {
+		var lines = text.Split (new char[]{seperator});
 
-			yield return StartCoroutine(CoShowPage("Welcome", 1f));
-
-			yield return new WaitForSeconds (3f);
-
-			yield return StartCoroutine(CoShowPage("to this fancy\ngame", 1f));
-
-			yield return new WaitForSeconds (3f);
+		foreach (var line in lines) {
+			yield return StartCoroutine(CoShowPage(line, timeDisplayed));
+			yield return new WaitForSeconds (timeHidden);
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
-	
+	IEnumerator CoShowText () {
+		yield return new WaitForSeconds (1f);
+
+		while (true) {
+			yield return StartCoroutine(CoShowLinePerPage(@"
+Indie Speed Run 2013
+Penance & Tumbleweed
+Team c4 @ Munich
+
+Martin Dechant
+Sebastian Dorda
+Alexander Zacherl
+
+", '\n', 3f, 1f));
+
+			yield return new WaitForSeconds (3600f);
+		}
 	}
 }
