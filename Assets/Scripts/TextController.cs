@@ -9,6 +9,8 @@ public class TextController : MonoBehaviour {
 	public AnimationClip animIn;
 	public AnimationClip animOut;
 
+	public Vector3 idleMovement;
+
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(CoShowText ());
@@ -21,7 +23,13 @@ public class TextController : MonoBehaviour {
 		textAnimation.Play ();
 		yield return new WaitForSeconds (textAnimation.clip.length);
 
-		yield return new WaitForSeconds (time);
+		var p = textMesh.transform.position;
+		var t = Time.time;
+		while (Time.time - t < time) {
+			textMesh.transform.Translate (idleMovement * Time.deltaTime);
+			yield return null;
+		}
+		textMesh.transform.position = p;
 
 		textAnimation.clip = animOut;
 		textAnimation.Play ();
