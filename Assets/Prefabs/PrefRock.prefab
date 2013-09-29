@@ -226,6 +226,15 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   c1: 0
   c2: 0
+  meshVariants:
+  - {fileID: 4300032, guid: 105a1e7311d8ec844856b494e38a6bc9, type: 3}
+  - {fileID: 4300000, guid: 779a9484f44fba747ba40b4275277817, type: 3}
+  - {fileID: 4300000, guid: 7cc319ae112b940428b309af3bd6b95e, type: 3}
+  - {fileID: 4300000, guid: 63c1c77f0e3af714a8861a42d08006f0, type: 3}
+  - {fileID: 4300000, guid: 1f8fc3ff4cf7cdf42b4b89eb90dc267a, type: 3}
+  - {fileID: 4300000, guid: 5e099bebe38232c45900430327c64484, type: 3}
+  - {fileID: 4300000, guid: b674855a4b68a824ba19e4580f256b93, type: 3}
+  mainMeshfilter: {fileID: 3300000}
   groupNr: 0
   neighbours: []
   mode: 0
