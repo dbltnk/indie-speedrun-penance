@@ -33,11 +33,19 @@ public class God : MonoBehaviour {
 		var g = Grid.instance;
 		var d = Soul.instance.rocksPlaced;
 
-		float f = UKMathHelper.MapIntoRange (d, 0f, maxD, 1f, 0f);
+		float f = UKMathHelper.MapIntoRange (d, 0f, maxD, 1f, 0f); 
 
 		// Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
-
+		
+		float maxDistance = Vector3.Distance(s, e);
+		float currentDistance = Vector3.Distance(transform.position, e);
+		float adjustedSpeed = Mathf.Max(1, moveSpeed * (currentDistance / maxDistance));
+		//Debug.Log(adjustedSpeed);
+		//Debug.Log(moveSpeed);
+		//Debug.Log(maxDistance);
+		//Debug.Log(currentDistance);
+		
 		var p = Vector3.Lerp (e, s, f);
-		transform.position = Vector3.MoveTowards (transform.position, p, Time.deltaTime * moveSpeed);
+		transform.position = Vector3.MoveTowards (transform.position, p, Time.deltaTime * adjustedSpeed);
 	}
 }
