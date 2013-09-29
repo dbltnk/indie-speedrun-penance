@@ -32,6 +32,10 @@ public class Soul : MonoBehaviour {
 
 	public Stack<Vector3> moveBackPositions = new Stack<Vector3>();
 	public Vector3 lastPosOnGround;
+	
+	public int rocksPlaced = 0;
+	public int lastRockX = 0;
+	public int lastRockY = 0;
 
 	public enum Mode {
 		NORMAL = 0,
@@ -254,6 +258,8 @@ public class Soul : MonoBehaviour {
 							Grid.instance.RemoveRockFromGrid (rock);
 							GameObject.Destroy (rock.gameObject);
 							AudioManager.instance.playSound ("pick_ground");
+							lastRockX = cellPos.a;
+							lastRockY = cellPos.b;		
 						} else if (!hasCell && isCarryingARock) {
 							// putdown
 							isCarryingARock = false;
@@ -261,6 +267,11 @@ public class Soul : MonoBehaviour {
 							var rock = Grid.instance.CreateRockObject (cellPos.a, cellPos.b);
 							Grid.instance.AddRockToGrid (rock, cellPos.a, cellPos.b);
 							AudioManager.instance.playSound ("place_ground");
+							int deltaX = Mathf.Abs(lastRockX - cellPos.a);
+							int deltaY = Mathf.Abs(lastRockY - cellPos.b);
+							if (deltaX >= Constants.instance.MIN_CARRY_DIST || deltaY >= Constants.instance.MIN_CARRY_DIST) {
+								rocksPlaced ++;	
+							}								
 						}
 					}
 				}

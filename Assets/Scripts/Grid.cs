@@ -17,6 +17,11 @@ public class Grid : MonoBehaviour {
 
 	public int rootGridX;
 	public int rootGridY;
+	
+	public int rocksPlaced = 0;
+	
+	public int lastRockX = 0;
+	public int lastRockY = 0;
 
 	void Awake () {
 		instance = this;

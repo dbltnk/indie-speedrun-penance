@@ -24,7 +24,7 @@ public class TimeWarp : MonoBehaviour {
 		var h = Soul.instance.transform.position.y;
 		var t = UKMathHelper.MapIntoRange (h, warpDepthEnd, warpDepthStart, 1f, 0f);
 		var f = CalculateTimeFactor (t);
-		Debug.Log (string.Format ("{0} / {1} / {2}", h, t, f));
+//		Debug.Log (string.Format ("{0} / {1} / {2}", h, t, f));
 		Time.timeScale = f;
 	}
 }

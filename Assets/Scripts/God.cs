@@ -11,12 +11,12 @@ public class God : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// TODO transform.position = startPosition.transform.position;
-		transform.position = endPosition.transform.position;
+		transform.position = startPosition.transform.position;
+		//transform.position = endPosition.transform.position;
 	}
 
 	void Update () {
-		// TODO AdjustPosition ();
+		AdjustPosition ();
 	}
 
 	// Update is called once per frame
@@ -24,19 +24,18 @@ public class God : MonoBehaviour {
 		var s = startPosition.transform.position;
 		var e = endPosition.transform.position;
 		var l = limitPosition.transform.position;
-
 		var r = rootPosition.transform.position;
 
-		var soulPos = Soul.instance.transform.position;
-		var soulPosOnLine = UKMathHelper.ProjectOntoLine(soulPos, r, r-l);
+		//var soulPos = Soul.instance.transform.position;
+		//var soulPosOnLine = UKMathHelper.ProjectOntoLine(soulPos, r, r-l);
 
-		var maxD = Vector3.Distance (r, l);
+		var maxD = Constants.instance.STONES_NEEDED_AS_PENANCE;
 		var g = Grid.instance;
-		var d = g.currenMaxRootDistance - Vector3.Distance(g.GetRoot().transform.position, r);
+		var d = Soul.instance.rocksPlaced;
 
 		float f = UKMathHelper.MapIntoRange (d, 0f, maxD, 1f, 0f);
 
-		Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
+		// Debug.Log (string.Format ("max={0} d={1} f={2}", maxD, d, f));
 
 		var p = Vector3.Lerp (e, s, f);
 		transform.position = Vector3.MoveTowards (transform.position, p, Time.deltaTime * moveSpeed);

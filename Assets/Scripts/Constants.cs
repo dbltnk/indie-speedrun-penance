@@ -21,6 +21,8 @@ public class Constants : MonoBehaviour {
 	public float MIN_RADIUS_TO_KEEP_AROUND_ROOT;
 	public float WEIGHT_GOAL_DISTANCE;
 	public float WEIGHT_CONNECTIVITY;
+	public float STONES_NEEDED_AS_PENANCE;
+	public float MIN_CARRY_DIST;
 	
 	void Awake () {
 		instance = this;
