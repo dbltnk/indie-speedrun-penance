@@ -11,6 +11,8 @@ public class Soul : MonoBehaviour {
 
 	public Vector3 gravity;
 	public float movementSpeed;
+	public float carrySpeed;
+	
 	public float rotateSpeed;
 	public float jumpSpeed;
 
@@ -172,9 +174,17 @@ public class Soul : MonoBehaviour {
 		// move wasd
 		var kX = Input.GetAxis ("Vertical");
 		var kY = Input.GetAxis ("Horizontal");
-
-		Vector3 movement = transform.TransformDirection (Vector3.forward) * movementSpeed * kX;
-		movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;
+		
+		Vector3 movement = new Vector3();
+		
+		if (isCarryingARock) {
+			movement = transform.TransformDirection (Vector3.forward) * carrySpeed * kX;
+			movement += transform.TransformDirection (Vector3.right) * carrySpeed * kY;
+		}
+		else {
+			movement = transform.TransformDirection (Vector3.forward) * movementSpeed * kX;
+			movement += transform.TransformDirection (Vector3.right) * movementSpeed * kY;	
+		}
 
 		if (_controller.isGrounded == false) {
 			velocity += gravity * Time.deltaTime;
