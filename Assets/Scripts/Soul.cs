@@ -264,7 +264,7 @@ public class Soul : MonoBehaviour {
 
 				// cheats
 				if (Constants.instance.CHEATS_ENABLED) {
-					if (Input.GetKey (KeyCode.Q)) {
+					if (Input.GetKey (KeyCode.O)) {
 						var cell = Grid.instance.grid.GetCellAt (cellPos.a, cellPos.b);
 						if (cell == null) {
 							UpdateMarker ();
@@ -273,10 +273,10 @@ public class Soul : MonoBehaviour {
 							AudioManager.instance.playSound ("place_ground");
 						}
 					}
-					if (Input.GetKey (KeyCode.F)) {
+					if (Input.GetKey (KeyCode.L)) {
 						gravity = Vector3.zero;
 					}
-					if (Input.GetKey(KeyCode.E)) {
+					if (Input.GetKey(KeyCode.P)) {
 						var cell = Grid.instance.grid.GetCellAt (cellPos.a, cellPos.b);
 						if (cell != null) {
 							UpdateMarker ();
