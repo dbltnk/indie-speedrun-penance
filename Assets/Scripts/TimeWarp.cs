@@ -8,13 +8,9 @@ public class TimeWarp : MonoBehaviour {
 
 	public float warpDepthStart;
 	public float warpDepthEnd;
+	public float pitchFactor;
 
 	private AudioSource audioSource;
-
-	public void PlaySound() {
-		audioSource.Stop ();
-		audioSource.Play ();
-	}
 
 	void Awake () {
 		instance = this;
@@ -42,7 +38,7 @@ public class TimeWarp : MonoBehaviour {
 //		Debug.Log (string.Format ("{0} / {1} / {2}", h, t, f));
 		Time.timeScale = f;
 
-		pitch = f - 1f;
-		audioSource.pitch = pitch;
+		audioSource.pitch = (f - 1f) * pitchFactor;
+		audioSource.volume = 1f - f;
 	}
 }
