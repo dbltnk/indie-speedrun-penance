@@ -294,7 +294,7 @@ public class Soul : MonoBehaviour {
 				//Debug.Log (lastPickUpTime);
 				
 				// pickup?
-				if ((Input.GetMouseButtonDown(0) || (Input.GetAxis ("JoystickJump") < -0.3)) && dt > 0.5f) {
+				if (Input.GetMouseButtonDown(0) || (Input.GetAxis ("JoystickJump") < -0.3 && dt > 0.5f)) {
 					lastPickUpTime = Time.time;
 					var canBePicked = Grid.instance.CanRockBePicked (cellPos.a, cellPos.b);
 					var hasCell = Grid.instance.grid.HasCellAt (cellPos.a, cellPos.b);
