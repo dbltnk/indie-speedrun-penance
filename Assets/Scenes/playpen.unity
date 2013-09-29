@@ -200,7 +200,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 1590c20d144714d8eb7626284f15ef60, type: 2}
   m_PrefabInternal: {fileID: 1732688104}
   m_GameObject: {fileID: 59381022}
-  m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106709}
+  m_LocalRotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -333,6 +333,9 @@ MonoBehaviour:
   rocksPlaced: 0
   lastRockX: 0
   lastRockY: 0
+  lastPickUpTime: 0
+  useController: 0
+  headUpDownAngle: 0
   mode: 0
 --- !u!143 &82284407
 CharacterController:
@@ -539,7 +542,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
       propertyPath: STONES_NEEDED_AS_PENANCE
-      value: 20
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
+      propertyPath: MIN_CARRY_DIST
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 978124e24f1a940b38de4f1ecef98d26, type: 2}
@@ -4036,8 +4043,8 @@ MonoBehaviour:
   MIN_RADIUS_TO_KEEP_AROUND_ROOT: 5
   WEIGHT_GOAL_DISTANCE: 10
   WEIGHT_CONNECTIVITY: 1
-  STONES_NEEDED_AS_PENANCE: 20
-  MIN_CARRY_DIST: 5
+  STONES_NEEDED_AS_PENANCE: 15
+  MIN_CARRY_DIST: 3
 --- !u!1 &1607852151
 GameObject:
   m_ObjectHideFlags: 0
@@ -4061,7 +4068,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400010, guid: f24cd0646cecc4acfb20db3d81f21c82, type: 2}
   m_PrefabInternal: {fileID: 1919838121}
   m_GameObject: {fileID: 1607852151}
-  m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106709}
+  m_LocalRotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4253,7 +4260,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400008, guid: f24cd0646cecc4acfb20db3d81f21c82, type: 2}
   m_PrefabInternal: {fileID: 1919838121}
   m_GameObject: {fileID: 1711255561}
-  m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106709}
+  m_LocalRotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
