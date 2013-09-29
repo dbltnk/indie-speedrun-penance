@@ -2,9 +2,24 @@
 using System.Collections;
 
 public class TimeWarp : MonoBehaviour {
+	public static TimeWarp instance;
+
+	public float pitch;
 
 	public float warpDepthStart;
 	public float warpDepthEnd;
+
+	private AudioSource audioSource;
+
+	public void PlaySound() {
+		audioSource.Stop ();
+		audioSource.Play ();
+	}
+
+	void Awake () {
+		instance = this;
+		audioSource = GetComponent<AudioSource> ();
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -26,5 +41,8 @@ public class TimeWarp : MonoBehaviour {
 		var f = CalculateTimeFactor (t);
 //		Debug.Log (string.Format ("{0} / {1} / {2}", h, t, f));
 		Time.timeScale = f;
+
+		pitch = f - 1f;
+		audioSource.pitch = pitch;
 	}
 }

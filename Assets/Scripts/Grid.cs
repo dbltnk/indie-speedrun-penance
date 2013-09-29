@@ -51,6 +51,9 @@ public class Grid : MonoBehaviour {
 			AddRockToGrid(rock, cell.x, cell.y);
 		}
 
+		// dont show root rock because of dispenser
+		GetRoot ().gameObject.VisitComponentsDeep<Renderer> (it => it.enabled = false);
+
 		RecalculateGroupsAndMaxDistance ();
 
 		StartCoroutine (CoBreakApartAtTheEdges ());
@@ -121,6 +124,7 @@ public class Grid : MonoBehaviour {
 		var rootPos = GetRoot ().transform.position;
 
 		currenMaxRootDistance = grid.EnumCells()
+			.Where(it => it.param != null)
 			.Select(it => it.param.transform.position)
 			.Select(it => Vector3.Distance(rootPos, it))
 			.Max();
