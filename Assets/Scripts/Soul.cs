@@ -38,6 +38,10 @@ public class Soul : MonoBehaviour {
 	public int rocksPlaced = 0;
 	public int lastRockX = 0;
 	public int lastRockY = 0;
+	
+	public float lastPickUpTime = 0f;
+	
+	public bool useController = false;
 
 	public enum Mode {
 		NORMAL = 0,
@@ -65,6 +69,7 @@ public class Soul : MonoBehaviour {
 	void Start () {
 		InvokeRepeating ("PlayStepSoundIfMoving", stepSoundTime, stepSoundTime);
 		InvokeRepeating ("TrackBackPositions", 0.1f, 0.1f);
+		lastPickUpTime = Time.time;		
 	}
 
 	void UpdateMarker () {
@@ -146,10 +151,23 @@ public class Soul : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// look around
-		var mX = Input.GetAxis ("Mouse X");
-		var mY = Input.GetAxis ("Mouse Y");
-
+		
+		// look around		
+		float mX;
+		float mY;
+		
+		if (Input.GetKeyDown (KeyCode.F1))
+			useController = !useController;
+			
+		if (useController == false) {
+			mX = Input.GetAxis ("Mouse X");
+			mY = Input.GetAxis ("Mouse Y");
+		}
+		else {
+			mX = Input.GetAxis ("Gamepad Rotation X");
+			mY = Input.GetAxis ("Gamepad Rotation Y");
+		}					
+		
 		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
 		head.transform.Rotate (new Vector3 (-mY, 0f, 0f) * rotateSpeed);
 
@@ -163,10 +181,19 @@ public class Soul : MonoBehaviour {
 			return;
 
 		// jump trigger
-		if (Input.GetKeyDown (KeyCode.Space))
+
+		if (useController == false) {
+			if (Input.GetKeyDown (KeyCode.Space))
 			jumpIfPossible = true;
-		if (Input.GetKey (KeyCode.Space) == false)
+			if (Input.GetKey (KeyCode.Space) == false)
 			jumpIfPossible = false;
+		}
+		else {
+			if (Input.GetAxis ("JoystickJump") > 0.3)
+			jumpIfPossible = true;
+			if (Input.GetAxis ("JoystickJump") <= 0.3)
+			jumpIfPossible = false;
+		}			
 
 		bool markerInDist = IsInPickupDistance(RockMarker.instance.transform.position);
 		RockMarker.instance.gameObject.SetActive(markerInDist);
@@ -205,7 +232,7 @@ public class Soul : MonoBehaviour {
 
 		// dispenser?
 		Ray r = Camera.main.ViewportPointToRay (Constants.instance.SCREEN_PICK_RAY_START);
-		if (isCarryingARock == false && Input.GetMouseButtonDown(0)) {
+		if (isCarryingARock == false && (Input.GetMouseButtonDown(0) || Input.GetAxis ("JoystickJump") < -0.3)) {
 			RaycastHit hit;
 			if (RockDispenser.instance.HasRocks() && RockDispenser.instance._collider.Raycast (r, out hit, float.MaxValue)) {
 				// near enough?
@@ -253,9 +280,16 @@ public class Soul : MonoBehaviour {
 						}
 					}
 				}
-
+				
+				float dt = Time.time - lastPickUpTime;
+				
+				//Debug.Log (dt);
+				//Debug.Log (Time.deltaTime);
+				//Debug.Log (lastPickUpTime);
+				
 				// pickup?
-				if (Input.GetMouseButtonDown (0)) {
+				if ((Input.GetMouseButtonDown(0) || (Input.GetAxis ("JoystickJump") < -0.3)) && dt > 0.5f) {
+					lastPickUpTime = Time.time;
 					var canBePicked = Grid.instance.CanRockBePicked (cellPos.a, cellPos.b);
 					var hasCell = Grid.instance.grid.HasCellAt (cellPos.a, cellPos.b);
 
