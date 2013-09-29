@@ -105,8 +105,8 @@ public class Soul : MonoBehaviour {
 		return d <= maxPickupDistance;
 	}
 
-	IEnumerator CoMoveTowards(Vector3 p, float speed) {
-		while (Vector3.Distance(p, transform.position) > 0f) {
+	IEnumerator CoMoveTowards(Vector3 p, float speed, float distThreshold) {
+		while (Vector3.Distance(p, transform.position) > distThreshold) {
 			// move towards next point
 			transform.position = Vector3.MoveTowards (transform.position, p, Time.deltaTime * speed);
 			yield return null;
@@ -117,25 +117,24 @@ public class Soul : MonoBehaviour {
 	{
 		mode = Mode.FALLDOWN_AND_DIE;
 
-		var upDisplacement = Vector3.up * 0.25f;
-
-		TimeWarp.instance.PlaySound ();
+		var upDisplacement = Vector3.up * 0.1f;
+		var distThreshold = 0.1f;
 
 		// rewind
 		while (moveBackPositions.Count > 0) {
 			// next pos
 			var p = moveBackPositions.Pop ();
-			yield return StartCoroutine (CoMoveTowards (p + upDisplacement, Constants.i.REWIND_SPEED));
+			yield return StartCoroutine (CoMoveTowards (p + upDisplacement, Constants.i.REWIND_SPEED, distThreshold));
 		}
 
 		// put on ground
-		yield return StartCoroutine (CoMoveTowards (lastPosOnGround + upDisplacement, Constants.i.REWIND_SPEED));
+		yield return StartCoroutine (CoMoveTowards (lastPosOnGround + upDisplacement, Constants.i.REWIND_SPEED, distThreshold));
 
 		// still in the air?
 		if (Physics.Raycast (new Ray (transform.position, Vector3.down), _controller.height) == false) {
 			// ok back to root
 			var rootPos = Grid.instance.GetRoot ().transform.position;
-			yield return StartCoroutine (CoMoveTowards (rootPos + Vector3.up * _controller.height, Constants.i.REWIND_SPEED));
+			yield return StartCoroutine (CoMoveTowards (rootPos + Vector3.up * _controller.height, Constants.i.REWIND_SPEED, distThreshold));
 		}
 
 		mode = Mode.NORMAL;
