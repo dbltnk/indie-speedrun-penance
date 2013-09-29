@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14, y: 2, z: 14}
+  m_LocalPosition: {x: .930957794, y: 2, z: 2.78371143}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -68,17 +68,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 100004}
   gravity: {x: 0, y: -6, z: 0}
-  movementSpeed: 5
+  movementSpeed: 4
+  carrySpeed: 2
   rotateSpeed: 5
   jumpSpeed: 3
-  stepSoundTime: .200000003
+  stepSoundTime: .5
   minPickupDistance: 1.5
   maxPickupDistance: 4
   isCarryingARock: 0
-  isMovingOnGround: 0
+  isMoving: 0
+  lastTimeOnGround: 0
   currentBelowRock: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   jumpIfPossible: 0
+  lastPosOnGround: {x: 0, y: 0, z: 0}
+  rocksPlaced: 0
+  lastRockX: 0
+  lastRockY: 0
+  mode: 0
 --- !u!143 &14300000
 CharacterController:
   m_ObjectHideFlags: 1
