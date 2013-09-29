@@ -21,6 +21,9 @@ public class Rock : UKListedBehaviour<Rock> {
 	public int c1;
 	public int c2;
 
+	public List<Mesh> meshVariants;
+	public MeshFilter mainMeshfilter;
+
 	public int gridX {
 		get { return cell != null ? cell.x : 0; }
 	}
@@ -78,6 +81,8 @@ public class Rock : UKListedBehaviour<Rock> {
 		rotator.transform.rotation = rotation;
 
 		creationTime = Time.time;
+
+		mainMeshfilter.mesh = UKRandomHelper.PickRandom (meshVariants);
 	}
 
 	public void Connect() {
