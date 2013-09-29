@@ -39,6 +39,8 @@ public class Soul : MonoBehaviour {
 	public int lastRockX = 0;
 	public int lastRockY = 0;
 
+	public float headUpDownAngle = 0f;
+
 	public enum Mode {
 		NORMAL = 0,
 		FALLDOWN_AND_DIE = 1,
@@ -151,7 +153,11 @@ public class Soul : MonoBehaviour {
 		var mY = Input.GetAxis ("Mouse Y");
 
 		transform.Rotate (new Vector3 (0f, mX, 0f) * rotateSpeed);
-		head.transform.Rotate (new Vector3 (-mY, 0f, 0f) * rotateSpeed);
+
+		headUpDownAngle += (-1f) * mY * rotateSpeed;
+		headUpDownAngle = Mathf.Clamp (headUpDownAngle, -85f, 85f);
+
+		head.transform.localRotation = Quaternion.Euler (headUpDownAngle,0f,0f);
 
 		// rewind?
 		if (mode == Mode.NORMAL && transform.position.y < Constants.i.REWIND_HEIGHT) {
